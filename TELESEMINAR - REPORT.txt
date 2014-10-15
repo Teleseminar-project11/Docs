@@ -1,0 +1,25 @@
+TELESEMINAR - REPORT
+
+	ABSTRACT
+1.	Introduction
+2.	Related Work
+3. 	Methodology
+3.1	Concept / System Overview (System architecture??)
+3.2	Client description
+3.3 	Server description
+3.4	Client - Server Interaction 
+	-protocolls
+	- metadata transfer
+	-json vs xml
+	-Video director
+3.4	Further improvements
+4. 	Evaluation
+	-Data Transfer
+	-Battery usage
+	-Video director, which sensor data used, parameters, weights of params
+	-Testing
+5.	Future Work
+6.	Conclusion
+
+
+Please give your opinion, , your brain storming and do improvements !!! ;)
