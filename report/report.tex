@@ -175,7 +175,7 @@ Throw in some references \cite{shrestha_automatic_2010} so bibliography does not
 
 \subsection{General architecture}
 
-\subsection{Video lifecycle}
+\subsection{Video life cycle}
 
 \subsection{Selection Algorithm}
 
@@ -199,15 +199,15 @@ It is implemented through HTTP requests to certain server locations result.
 	\item[POST /event/\textit{id}]\hfill\\
 		Upload JSON metadata about a video for Event with given \textit{id}.
 		
-	\item[PUT /event/\textit{id}/\textit{video\_id}]\hfill\\
+	\item[PUT /video/\textit{video\_id}]\hfill\\
 		Upload video~\textit{video\_id} from Event~\textit{id}.
 		Expects request body to be a file stream containing a full video file.
 		
-	\item[GET /selected]\hfill\\
-		Retrieve a list of selected but not yet uploaded videos in JSON.
-		
-	\item[GET /event/\textit{id}/\textit{video\_id}]\hfill\\
+	\item[GET /video/\textit{video\_id}]\hfill\\
 		Retrieve video~\textit{video\_id} from Event~\textit{id}.
+		
+	\item[GET /selected]\hfill\\
+		Retrieve a list of selected but not yet uploaded videos in JSON.		
 		
 \end{description}
 
