@@ -6,11 +6,15 @@
 \graphicspath{{../images/}}
 \usepackage[cmex10]{amsmath}
 \usepackage{algorithmic}
-\usepackage{array}
+%\usepackage{array}
 \usepackage[caption=false,font=footnotesize]{subfig}
 \usepackage{stfloats}
 \usepackage{url}
 \usepackage[utf8]{inputenc}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
@@ -78,12 +82,6 @@ IEEEtran.cls version 1.7 and later.
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
 I wish you the best of success.
-
-\subsection{Subsection Heading Here}
-Subsection text here.
-
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -171,16 +169,19 @@ Describe articles and how our work differs from theirs.
 Throw in some references \cite{shrestha_automatic_2010} so bibliography does not look empty.
 \cite{seshadri_demand_2014}
 
-\section{Implementation details}
+\section{Methodology}
 
-\subsection{General architecture}
+\subsection{System Overview}
 
-\subsection{Video life cycle}
+\subsection{Client application}
 
-\subsection{Selection Algorithm}
+\subsection{Server application}
+Server general description goes here.
+Video storage, database connection, server framework description.
 
-\subsection{Protocol description}
+\subsection{Client-server interaction}
 
+\subsubsection{Protocols}
 Our Automatic Mobile Video Director server implementation provides 
 a general interface to applications which wish to interact with it. 
 It is implemented through HTTP requests to certain server locations result.
@@ -211,8 +212,9 @@ It is implemented through HTTP requests to certain server locations result.
 		
 \end{description}
 
-\subsection{Metadata description}
-Metadata is transferred in JSON format.
+\subsection{Metadata format}
+JSON vs XML arguments here
+As a final result we should state that metadata is transferred in JSON format.
 % TODO Dummy metadata description.
 \begin{description}
 	\item[id]\hfill\\
@@ -248,8 +250,21 @@ Metadata is transferred in JSON format.
 		
 \end{description}
 
+\section{Video Director Algorithm}
+
+\subsection{Video life cycle}
+
+\subsection{Selection algorithm}
+
 \section{Evaluation}
 How good/bad it is.
+
+\subsection{Data Traffic}
+
+\subsection{Battry consumptio}
+Who wants to test it?
+
+\subsection{Selection criteria}
 
 \section{Future Work}
 Put down all the awesome ideas we have.
@@ -285,5 +300,54 @@ The conclusion goes here.
 \bibliography{report}
 % argument is your BibTeX string definitions and bibliography database(s)
 %\bibliography{IEEEabrv,../bib/paper}
+
+%\newpage
+
+\begin{table*}[t]
+	\centering
+	\renewcommand{\arraystretch}{1.5}
+	\caption{Task distribution}
+	\label{tab:task_distr}
+	\begin{tabular}{lllr}
+		\toprule
+		Part & Task  & Subtask & Responsible \\
+		\midrule
+		Android application 
+			& Video Capture &       & Thilo Weigold \\
+			& Sensor data collection &       & Thilo Weigold \\
+			& Metadata class &       & Thilo Weigold \\
+			& Http Client & Post Method & Thilo Weigold \\
+			&       & Cookies, Callbacks & Alexander Egurnov \\
+			&       & Get \& Update methods & Alexander Egurnov \\
+			& Background upload service  &       & Thilo Weigold \\
+			& SQLite database connection &       & Thilo Weigold \\
+			& Preferences &       & Alexander Egurnov \\
+			& GUI   &       & Thilo Weigold, Alexander Egurnov \\
+			& Client-server data exchange &       & Alexander Egurnov \\
+		\midrule
+			Server application 
+			& RESTful Server application & Client authorization & Alf-André Walla \\
+			&       & Request processing & Alf-André Walla \\
+			&       & Video and Event logic & Alf-André Walla \\
+			& MySQL database connection &       & Jon Pettersen \\
+			& Video Director  &       & Alf-André Walla \\
+			& Client-server data exchange debug &       & Alexander Egurnov \\
+			& Video upload &       & Alf-André Walla, Alexander Egurnov \\
+		\midrule
+			Web Server 
+			& MySQL Administration &       & Alexander Egurnov \\
+			& Nginx setup for streaming video &       & Alexander Egurnov \\
+			&       &       &  \\
+			&       &       &  \\
+		\midrule
+			Documentation & Basic template formatting & & Alexander Egurnov \\
+			&       &       &  \\
+			&       &       &  \\
+			&       &       &  \\
+		\bottomrule
+    \end{tabular}%
+\end{table*}%
+\hfill
+
 
 \end{document}
