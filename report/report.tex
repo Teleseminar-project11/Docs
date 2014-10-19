@@ -176,17 +176,22 @@ Others (On Demand Retrieval of CrowdSourced Mobile Video), ( Automatic Mashup Ge
 Another area that has been investigated is the task of identifying what is called region of interest or point of interest. These terms describe areas of the event that are more interesting than others. We probably will find a video of a concert more interesting if the camera is pointing towards the stage than one pointing somewhere else. Several solutions have been proposed for solving this problem. You can go through frames of the video to see if they resemble the main attraction of the event, like a stage on a concert, or the singer on that stage. This is used in (). However the reliance on the sensors in the mobile devices for discovering such regions seems to be a much more preferred method. (Sensor-based Analysis of User Generated Video for Multi-camera Video Remixing) uses the built-in compass found on mobile devices to make sure the camera is pointing in the right direction. This system also uses the compass to detect if the camera changes direction. They make the assumption that if the camera is suddenly turned to face a different way, the user has probable spotted something interesting. Detecting this change in direction allows for a more interesting viewing experience. 
 The detection of something interesting also goes as far as detecting which activity is being filmed.  This is used to relive the managers of such systems from the trouble of marking each video with appropriate tags. (Sport Type Classification of Mobile Videos) has created a system that is able to detect which of several sports is being filmed while (MoVi) is able to detect when a social happen is taking place in from of it and start recording whenever it detects one. (MoVi) analyses sound to detect, among other things, laughter. 
 
-
-Throw in some references \cite{shrestha_automatic_2010} so bibliography does not look empty.
-\cite{seshadri_demand_2014}
-
 \section{Methodology}
 
 \subsection{System Overview}
-BRAINSTORMING: goal of our application? Client-Server architecture? RESTful Web Service.
+In this section we briefly want to give an overview of our system throughout. Detailed discussions of our implementation will follow in the subsections afterwards. 
+To implement our idea of an Automatic Mobile Video Director it was necessary to find the right structural organization for our system. Restricted requirements and the logical distribution of tasks leads us to the decision to realize our service in an conventional client-server architecture. Figure 1 shows our system architecture, consisting of multiple clients and one central server part.
+This architectural set up entails some important advantages. Client-Server gives us the possibility to strictly separated tasks and work between clients and server. Compared to other possible architectures, like peer to peer, we are able  to centralize all resources and important computation in one place now. Resources, like battery and computation power can be saved on client side, while the hard work has to be taken on server side. In peer to peer networks clients would have to communicate with each others, which would produce big communication overhead to weight of important resources. However these resources are reserved and needed for recording videos and sending them, if necessary to our central Video Director. Therefore we think an client-server architecture fits best the requirements of the Automatic Mobile Video Director. 
+
 
 \subsection{Client application}
 BRAINSTORMING: archtitecture? android sdk, camera, mediamanager, sensor, http client, service class, sqlite.
+
+CLient tasks, architecture, 
+android sdk
+
+
+
 
 \subsection{Server application}
 Server general description goes here.
@@ -356,7 +361,7 @@ The conclusion goes here.
 			&       &       &  \\
 		\midrule
 			Documentation & Basic template formatting & & Alexander Egurnov \\
-			&       &       &  \\
+			&       Introduction      & & Thilo Weigold \\
 			&       &       &  \\
 			&       &       &  \\
 		\bottomrule
