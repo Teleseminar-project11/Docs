@@ -191,11 +191,12 @@ This architectural set up entails some important advantages. Client-Server gives
 
 \subsection{Client application}
 
-In a nutshell, the client application "Automatic Video Director" consists of 4 main logical components: The user interface UI, the HTTP client connection part, Camera and Sensor retrieving and a persistent database.
-The application is implemented using the official Android SDK, provided by Google Inc..
+In a nutshell, the client application consists of four main logical components: user interface, http client connection, camera and sensor retrieving and the persistent database.
 
-Great effort of our client development was raised on the client and server communication part. As an communication protocol between client and server we decided to use exclusively Http. For realization, Android offers two main solutions: Apache Http Client and HttpURLConnection. Since Google is not supporting Apache Http Clients anymore, we decided to use the HttpURLConnection Client.
-In order to ensure a smooth work flow of the android application, we make use of specific thread techniques. First it was necessary to prevent network operations to block application's user interface, which would later result in poor user experience. Therefore all network operations need to be run as an instance of the specified HttpAsnycTask class, a heredity of the AsyncTask class. This means that all HTTP requests run asynchronous in the background of the application's main thread.
+Great effort of development was raised on the client and server communication part. As an communication protocol between client and server we decided to use exclusively Http. Since Google is not supporting Apache Http Clients anymore, we decided to use the HttpURLConnection Client, which is lightweight, simple to handle as well as applicable for all purposes we are aiming to do. "Reference to android-developers.blogspot".
+
+In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
+First it was necessary to prevent network operations blocking the application's user interface. Bad usability would be the result, if the interface crashes, with every failed or delayed network operation. Therefore all network operations need to be run as an instance of the specified HttpAsnycTask class, a heredity of the AsyncTask class. Doing so we make sure that all HTTP requests run asynchronous in the background of the application's main thread.
 Another important task of our application, is the automatic checkup and upload of selected videos, even when users leave the application and multitasking is done virtually. Such an feature can be realized in Android by implementing a service class, which handles background computations in the main thread. All HTTP\_GET requests for retrieving server notifications are called within a separate thread of the service, as well has the HTTP\_PUT method for uploading the video file to the server. By doing so we make sure, that all network operations run independently of our main thread, while fulfilling their tasks.
 
 Further core function is the recording of videos. Using Android's MediaRecorder class we are able to handle access to the phone's build-in camera as well as the recording and storage of video files.
@@ -350,7 +351,7 @@ The conclusion goes here.
 		Part & Task  & Subtask & Responsible \\
 		\midrule
 		Android application 
-			& Video Capture &       & Thilo Weigold \\
+			& Video Capture, MediaManager &     & Thilo Weigold \\
 			& Sensor data collection &       & Thilo Weigold \\
 			& Metadata class &       & Thilo Weigold \\
 			& Http Client & Post Method & Thilo Weigold \\
