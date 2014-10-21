@@ -77,9 +77,9 @@ The abstract goes here.
 
 % TODO more like in the last 10 years
 In the recent years the Internet has changed a lot. 
-It is not about retrieving simple html pages from websites anymore, 
+It is not about retrieving simple HTML pages from websites anymore, 
 but rather sharing news, videos and pictures from all over the world.
-With the advent of the "Web 2.0" user-generated content has become a crucial part of the Internet we know nowadays.
+With the advent of the ``Web 2.0'' user-generated content has become a crucial part of the Internet we know nowadays.
 % TODO It would be nice to have a link to some kind of report comparing multimedia/web2.0 traffic
 Being social is another rather important need of an average internet user.
 Well-known platforms like YouTube, Twitch, Facebook, Twitter, Instagram, Flickr and many other
@@ -261,29 +261,30 @@ Among other things, authors use the sound of laughter to trigger event detection
 \section{Methodology}
 
 \subsection{System Overview}
-In this section we briefly want to give an overview of our system throughout.
+In this section we give a brief overview of the whole system.
 Detailed discussions of our implementation will follow in the subsections afterwards. 
 To implement our idea of an Automatic Mobile Video Director it was necessary to find the right structural organization for our system.
-Restricted requirements and the logical distribution of tasks leads us to the decision 
-to implement our service in an conventional client-server architecture.
-Figure~\ref{fig:gen_arch} shows our general system architecture, consisting of multiple clients and one central server part.
+Given requirements and logical distribution of tasks leads us to the decision 
+to implement our service in a conventional client-server architecture.
+Figure~\ref{fig:gen_arch} shows our general system architecture, consisting of multiple clients and one central server.
+
 This architectural set up entails some important advantages.
 Client-Server design gives us opportunity to strictly separate tasks and work between clients and server.
 Compared to other possible architectures, like peer to peer, we are able to centralize all resources
 and important computation in one place. 
-Resources, like battery and computational power can be saved on the client side, 
+Resources, like battery and computational effort can be saved on the client side, 
 while computationally intensive tasks are carried out on the server side. 
 In peer to peer networks clients would have to communicate with each other, 
 which would produce big communication overhead to weight of important resources.
-However these resources are reserved and needed for recording videos and sending them upon request to our central Video Director.
-Therefore we believe that the client-server architecture best matches our requirements to the Automatic Mobile Video Director.
+However, these resources are limited and needed for recording videos and sending them upon request to our central Video Director.
+Therefore we believe that the client-server architecture best matches our requirements.
 
-The server set up implements a file system for video storage, a MySql database for storing and retrieving meta data persistently and a RESTful interface to handle HTTP requests and responses.
-Additional core function is the director algorithm for creating video upload permissions for clients. 
-Via Nginx clients can stream videos from our web server, which is not fully implemented yet and left for future work improvments.
+
+The server set up uses local file system for video storage, a MySQL database for storing and retrieving meta data persistently and a RESTful interface to handle HTTP requests and responses.
+Additional core function is the director algorithm which is used to make decisions about which video clients should upload.
+Nginx web server is used to stream resulting video from our web server to viewers.
+This feature is not fully implemented yet and left for future work and improvements.
 Detailed descriptions of our server and client implementation are discussed in the following sections.
-
-
 
 \begin{figure}[!t]
 	\centering
@@ -295,68 +296,79 @@ Detailed descriptions of our server and client implementation are discussed in t
 
 \subsection{Client application}
 
-
 The client application consists of four main logical components: 
 user interface, HTTP client, camera and sensor modules and a persistent database.
 
 As a communication protocol between client and server we decided to use HTTP.
-Two major options for HTTP clients are Apache HTTP Client and HttpURLConnection.
-Since it is recommended to use HttpURLConnection for Android Gingerbread and later \cite{jesse_wilson_androids},
+Two major options for HTTP clients are Apache HTTP Client and \textsc{HttpURLConnection}.
+Since it is recommended to use \textsc{HttpURLConnection} for Android Gingerbread and later \cite{jesse_wilson_androids},
 we decided to go with it.
 It is lightweight, simple to handle as well as applicable for all purposes we are aiming to do.
 
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
 First it is necessary to prevent network operations blocking the application's user interface, resulting in poor usability experience.
-Therefore all network operations need to be run as an instance 
-of the specified HttpAsnycTask class, a heredity of the AsyncTask class. Doing so we make sure that all HTTP requests run asynchronous in 
-the background of the application's main thread.
-Secondly the application requires an automatic checkup and upload of selected videos, even when users leave the application and multitasking 
-is done virtually. Such an feature can be realized in Android by implementing a service class, which handles background computations in the main 
-thread. A second thread within this service class is used to request potential selected video ids via HTTP GET, in order to upload video files via HTTP PUT every 10 seconds.
+Therefore all network operations need to be run as an instance of the specified \textsc{HttpAsyncTask} class, 
+a heredity of the \textsc{AsyncTask} class.
+Doing so we make sure that all HTTP requests run asynchronously in the background of the application's main thread.
+Secondly, the application requires an automatic upload of selected videos, even when users leave the application.
+Such feature can be realized in Android by implementing a service class, which handles background computations in the main thread. 
+A second thread within this service class is used to request potential selected video ids via HTTP GET every 10 seconds,
+in order to upload video files via HTTP PUT if necessary.
 By doing so we make sure, that all network operations run independently and separated of our main thread.
 
 Further core function is the recording of videos. Hereby we do not use the phone's default camera application,
 rather writing our own camera activity, which can be suited to our requirements.
-Using Android's MediaRecorder class we are able to handle access to the phone's build-in camera
+Using Android's \textsc{MediaRecorder} class we are able to handle access to the phone's build-in camera
 as well as the recording and storage of video files.
 Simultaneously sensor data is tracked as well.
 In order to couple sensor and video capture we make use of the observer pattern.
-Sensor detection classes (ShakeDetection.class \& TiltDetetcion.class) are implemented as Observables,
-while the CameraActivity class registers as a single observer. When sensor data changes, the CameraActivity is notified by the observables.
+Sensor detection classes (\textsc{ShakeDetection} and T\textsc{iltDetetcion}) are implemented as Observables,
+while the \textsc{CameraActivity} class registers as a single observer. 
+When sensor data changes, the \textsc{CameraActivity} is notified by the observables.
 All in all we have decided not to focus on sensor detection and retrieving.
-A lot of research has been already done in those parts. Due to the shortage of available time we only retrieve some basic accelerometer data,
-in order to determine the amount of shaking and weight of tilt, represented by simple integer values.
+A lot of research has been already done in those parts. Due to the shortage of available time we only retrieve 
+some basic accelerometer data, in order to determine the amount of shaking and weight of tilt, 
+represented by simple integer values.
 The sensor data is part of the meta data which is sent to the server for directing the video upload process.
 Hereby the amount of shaking is a counter which is increased by one, when ever shaking is detected.
-We assume to be in a shaking motion, when at least two of three accelerometer values have changed to their previous values by a specific threshold.
-The threshold value is initializes as a float literal with the value 0.7f; This value is exclusively based on experimenting.
-
+We assume to be in a shaking motion, when at least two of three accelerometer values have changed related
+to their previous values by a specific threshold.
+The threshold value is initialized as a float constant with the value 0.7f. This value is exclusively based on experimenting.
 
 In order to keep track and coupling of stored video files and obtained meta data, we make use of a persistent database,
 implemented with the lightweight SQLite library, which has support from Android side as well.
-The local database set up would not have been entirely necessary. But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
-Each meta data entry has its unique id and each stored video file has its unique filename.
-Therefore we use the database column filename as a unambiguous reference to a specific video file. When the client gets notified by the server to upload a video, it is necessary to check the filename in the within the table entries, selecting the correct file to be uploaded.
-
-
+The local database set up would not have been entirely necessary. 
+But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
+Each meta data entry has its unique \textsl{id} and each stored video file has its unique \textsl{filename}.
+Therefore we use the database column \textsl{filename} as a unambiguous reference to a specific video file.
+When the client gets notified by the server to upload a video, it is necessary to check the filename in the within 
+the table entries, selecting the correct file to be uploaded.
 
 \subsection{Server application}
 
-The server was created using Java 8, Maven, Spark and Gson. Maven allows easy instant deployment to new locations for server,
-and spark allows creating RESTful service using the new Java 8 lambdas, which simplifies and concentrates all the client-server
+The server was built using Java 8, Maven, Spark and Gson. Maven allows easy instant deployment to new locations,
+and Spark allows to create RESTful service using the new Java 8 lambdas, which simplifies and concentrates all the client-server
 interactions into the main file. Gson was used to communicate with clients as well as serialize and deserialize SQL results.
 
 Server application uses a RESTful API to communicate with clients, using actions, such as GET /events.
 
+% TODO
 Video storage, database connection, server framework description. RESTful Web Service
 
 
 \subsection{Client-server interaction}
-BRAINSTROMING: HTTP protocol, 
+% TODO BRAINSTROMING: HTTP protocol, 
 
-\subsubsection{Protocols}
+All client server interaction are carried out using HTTP requests to certain server locations.
+Server provides a kind of API which allows client application to upload metadata, query selection results and upload videos.
+We decided to use HTTP because it is textual, which means easy to debug, 
+wide-spread and well established protocol with a lot of tool already available. 
+Another advantage of this protocol is that it does not require to maintain a persistent connection between the two ends.
+This important feature allows to prolong battery life and diminish traffic waste.
+
+\subsubsection{Protocol}
 Our Automatic Mobile Video Director server implementation provides 
-a general interface to applications which wish to interact with it. 
+a generalized interface to applications which wish to interact with it. 
 It is implemented through RESTful HTTP requests, using certain server locations as actions.
 
 \begin{description}
@@ -487,28 +499,60 @@ How good/bad it is.
 \subsection{Data Traffic} 
 Thilo can test it. I will have a look to this. If someone has experience please let me know.
 
-\subsection{Battery consumption}
-Who wants to test it?
-
 \subsection{Selection criteria}
 
 \section{Future Work}
-Put down all the awesome ideas we have.
 
-Our implementation is not ideal, especially when looking at similar existing systems. This is due to the fact that our system was implemented in five weeks and we did not have time to include all the features that should be in such a system. The things we are missing include; a better way of identifying a timeline of an event, identifying regions of interest, real-time streaming from mobile devices to end users with minimum delay. (Add more if there is something you feel that the system is missing!) In this section we will go through these points and look at problems we can encounter with our solution and suggest better implementation alternatives where available. 
+Our implementation is far from perfect, especially compared to similar existing systems.
+This is due to the fact that our system was implemented in five weeks and 
+we did not have time to include all the features that could have been in such a system.
+Among the things which could be improved are a better way of identifying a timeline of an event,
+a way of identifying regions of interest, real-time streaming from mobile devices to server 
+and from server to end users with minimum delay, web portal to navigate covered events and many more.
+In this section we will go through these points, look at the problems we encounter with our solution 
+and suggest better implementation alternatives where available.
 
-The timestamps represent a weakness in our system. They are generated based on the clock in the mobile device and people can set that clock to whatever they like. This creates uncertainty about the actual time a video was captured as it relies on us trusting the cameramen to all have the exact same time on their phones. This is practically impossible as the system is intended for the general public. There are two ways presented in the sources for this paper for solving this. \cite{shrestha_automatic_2010} presents a system that uses the audio of a video file to pinpoint the duration of an event it covers. It does this by comparing audio to other video files looking for what they call “audio-fingerprints”. According to them, it is a robust method that calculates the time offset of a video in about 11.6 ms. Another way is just mentioned in \cite{ jain_focus:_2013} and uses the GPS device located on a mobile device to generate what they call “precise GPS-derived timestamps”.
-Either of these methods would be better than ours as they don’t rely on what time is set on the users device, however, we deemed them very time-consuming to implement, and such decided to implement them only if we had time for it. We did not but clearly see the error that can be caused by our system.
+The timestamps represent a weakness in our system.
+They are generated based on the clock in the mobile device which is not necessarily accurate or 
+synchronized to server time or even timezone. 
+This creates uncertainty about the actual time a video was captured as it relies on us trusting the devices all have the exact same time.
+This is practically impossible as the system is intended for use by general public. 
+There are two ways presented in the sources for this paper for solving this. 
+\cite{shrestha_automatic_2010} presents a system that uses the audio of a video file to pinpoint the duration of an event it covers.
+It does this by comparing audio to other video files looking for what they call “audio-fingerprints”. 
+According to them, it is a robust method that calculates the time offset of a video in about 11.6 ms. 
+Another way is just mentioned in \cite{ jain_focus:_2013} and uses the GPS device located on a mobile device
+to generate what they call “precise GPS-derived timestamps”.
+Either of these methods would be better than ours as they don’t rely on what time is set on the users device,
+however, we deemed them very time-consuming to implement, and so decided to implement them only if we had time for it.
+We are fully aware of possible errors our current methods might cause.
 
-Region of interest is a very interesting topic in this field as it focuses on making sure that the right content is captured on film at an event. The fact that we don’t have that implemented has a few implications to the practical use of our system. First, we can’t be sure what’s on the video. We don’t check where the mobile device is when it films so the person filming may not be at a listed event at all. We can solve this by checking the users GPS when they try to connect to our server, or when they deliver a video file. When creating an event we would have to mark up the coordinates where the event is taking place and only accept videos delivered with GPS coordinated within that area.
-Even if we make sure the person is at the event we can’t be sure he/she is pointing the camera in the right direction. This can be solved by checking the built-in compass in the mobile device and only accept videos that are shot in the right direction \cite{cricri_sensor-based_2012}. So if we have want to film a concert we only accept film from clients that are at the event and are pointing their camera at the stage. 
-Identifying where the videos are shot and what we shoot is also impacted by issues of privacy and commercial interests. With our system we can shoot videos anywhere, at any time, but this can come in conflict with legal rights if we use the application to film a person without their consent. We would also come in conflict with TV-channels, sitting on the rights for covering a sports event, if we use our system to provide a free alternative to theirs, without their permission. Making sure the system can properly identify the regions of interest is therefore very important.
+Region of interest is a very interesting topic in this field as it focuses on making sure 
+that the right content is captured during an event.
+The fact that we do not have it implemented has a few implications to the practical use of our system.
+First of all, we cannot be sure what is shown on the video. 
+We do not check where the mobile device is when it films so the person filming may not be at a listed event at all.
+We can solve this by checking the users GPS when they try to connect to our server, or when they deliver a video file.
+When creating an event we would have to mark up the coordinates where the event is taking place 
+and only accept videos delivered from within the designated area.
+Even if we make sure the person is at the event we cannot be sure he or she is pointing the camera in the right direction.
+This problem can be solved by checking the built-in compass in the mobile device 
+and only accepting videos that are shot in the right direction, as proposed in \cite{cricri_sensor-based_2012}.
+So if we want to film a concert we only accept files from clients that are at the event and are pointing their camera at the stage. 
+Identifying where the videos are shot and what they show is also impacted by issues of privacy and commercial interests. 
+With our system we can shoot videos anywhere, at any time, but this can come in conflict with legal rights 
+if we use the application to film a person without their consent.
+We would also come in conflict with TV-channels, sitting on the rights for covering a sports event, 
+if we use our system to provide a free alternative to theirs, without their permission. 
+Making sure the system can properly identify the regions of interest is therefore very important.
 
-
+When we talk about multimedia system, one of the most important results is delivered content. 
+While we do implement some limited streaming capabilities, a proper web portal, which allows to choose an event 
+and see the stream right from a browser, would be a logical final to video's path through out system.
+It is not hard to implement, but it needs time and some basic web programming knowledge which is quite different from our other tasks.
 
 \section{Conclusion}
 The conclusion goes here.
-
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
@@ -580,7 +624,6 @@ The conclusion goes here.
 		\midrule
 		Evaluation
 			& Data usage & & \\
-			& Battery usage & & \\
 		\midrule
 		Web Server
 			& MySQL Administration & & Alexander Egurnov \\
@@ -588,22 +631,22 @@ The conclusion goes here.
 		\midrule
 		Documentation 
 			& Basic template formatting & & Alexander Egurnov \\
+			& General editing & & Alexander Egurnov \\
 			& Images and other data & & Thilo Weigold, Alexander Egurnov \\
 			& Introduction & & Thilo Weigold, Alexander Egurnov \\
-			& Methodology & Related Work & Jon Pettersen \\
-			&       & System Overview & Thilo Weigold \\
+			& Related Work & & Jon Pettersen, Alexander Egurnov \\
+			& Methodology & System Overview & Thilo Weigold \\
 			&		& Client application & Thilo Weigold \\
-			&		& Server application & \\
-			&		& Client-server interactions & \\
-			& Video Director & & \\
+			&		& Server application & Alf-André Walla, Jon Pettersen \\
+			&		& Client-server interactions & Alexander Egurnov \\
+			& Video Director & & Alf-André Walla \\
 			& Evaluation & & \\
-			& Future Work & & \\
+			& Future Work & & Jon Pettersen \\
 			& Conclusion & & \\
 		\bottomrule
     \end{tabular}%
 \end{table*}%
 
 \vfill
-
 
 \end{document}
