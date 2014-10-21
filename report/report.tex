@@ -203,16 +203,18 @@ is being studied by another group. The same applies to the selection criteria of
 
 \section{Related work}
 As mentioned above the interest of the public to capture and share videos from public events has increased with the introduction of mobile devices with high resolution cameras and wireless internet connection. As such there has also been a huge increase in the number of research projects trying to make this task easier and to reduce the strain represented by the uploading of such videos. \cite{engstrom_mobile_2012} proposes a manual way of making these videos where five people are able to set up a connection between their mobile devices, assign roles to each device, one is assigned the role of director and the others are cameramen, and capture an event taking place where they are.
-Others, like \cite{seshadri_demand_2014} and \cite{shrestha_automatic_2010}, uses an algorithm to make the director automatic. With this solution you have to find a way of deciding which of the videos received, is the one covering the event in the best way and with the best picture quality. They propose using metadata from the devices sensors to evaluate the quality of the videos instead of uploading all videos from an event to the server and going through the video frame by frame. This also enables us to just send the best videos to the server, discarding the rest which saves a lot of bandwidth. This is pointed out by \cite{seshadri_demand_2014} as a serious concern at big events like the SuperBowl.
+Others, like \cite{seshadri_demand_2014} and \cite{shrestha_automatic_2010}, use an algorithm to make the director automatic. With this solution you have to find a way of deciding which of the videos received, is the one covering the event in the best way and with the best picture quality. They propose using metadata from the devices sensors to evaluate the quality of the videos instead of uploading all videos from an event to the server and going through the video frame by frame. This also enables us to just send the best videos to the server, discarding the rest which saves a lot of bandwidth. This is pointed out by \cite{seshadri_demand_2014} as a serious concern at big events like the SuperBowl.
 
 Systems like this can be used to generate a summary of an event by fusing parts of different video clips together. However, to discover exactly when a video is shot represents a challenge. Failing to find the exact time a video is shot may lead to videos overlapping or failing to cover the entire event by leaving gaps in the video summarization \cite{shrestha_automatic_2010}. \cite{jain_focus:_2013} uses GPS to extract their timestamps. \cite{shrestha_automatic_2010} addresses this issue by using the audio in the video files to generate a unified time-line of the event. 
 
-Another area that has been investigated is the task of identifying what is called region of interest or point of interest. These terms describe areas of the event that are more interesting than others. We probably will find a video of a concert more interesting if the camera is pointing towards the stage than one pointing somewhere else. Several solutions have been proposed for solving this problem. You can go through frames of the video to see if they resemble the main attraction of the event, like a stage on a concert, or the singer on that stage. However the reliance on the sensors in the mobile devices for discovering such regions seems to be a much more preferred method. \cite{cricri_sensor-based_2012}uses the built-in compass found on mobile devices to make sure the camera is pointing in the right direction. This system also uses the compass to detect if the camera changes direction. They make the assumption that if the camera is suddenly turned to face a different way, the user has probable spotted something interesting. Detecting this change in direction allows for a more interesting viewing experience. 
+Another area that has been investigated is the task of identifying what is called region of interest or point of interest. These terms describe areas of the event that are more interesting than others. We probably will find a video of a concert more interesting if the camera is pointing towards the stage than one pointing somewhere else. Several solutions have been proposed for solving this problem. You can go through frames of the video to see if they resemble the main attraction of the event, like a stage on a concert, or the singer on that stage. However the reliance on the sensors in the mobile devices for discovering such regions seems to be a much more preferred method. \cite{cricri_sensor-based_2012} uses the built-in compass found on mobile devices to make sure the camera is pointing in the right direction. This system also uses the compass to detect if the camera changes direction. They make the assumption that if the camera is suddenly turned to face a different way, the user has probable spotted something interesting. Detecting this change in direction allows for a more interesting viewing experience. 
 The detection of something interesting also goes as far as detecting which activity is being filmed.  This is used to relive the managers of such systems from the trouble of marking each video with appropriate tags. \cite{cricri_sport_2014}has created a system that is able to detect which of several sports is being filmed while \cite{bao_movi:_2010} is able to detect when a social happen is taking place in from of it and start recording whenever it detects one. \cite{bao_movi:_2010} analyses sound to detect, among other things, laughter. 
 
 Protecting privacy is also an important part of the automated video director systems. However, of the papers we looked at for writing this paper, only one mentions this topic. \cite{bao_movi:_2010} says this on the matter:
 “User privacy is certainly a concern in a system like MoVi. For this paper, we have assumed that attendants in a social party may share mutual trust, and hence, may agree to collaborative video-recording. This may not scale to other social occasions. Certain other applications, such as travel blogging or distributed surveillance may be amenable to MoVi. Even then, the privacy concerns need to be carefully considered.”
 
+
+% TODO Design?
 \section{Methodology}
 
 \subsection{System Overview}
@@ -380,45 +382,61 @@ The conclusion goes here.
 	\label{tab:task_distr}
 	\begin{tabular}{lllr}
 		\toprule
-		Part & Task  & Subtask & Responsible \\
+		Part & Task & Subtask & Responsible \\
 		\midrule
-		Android application 
-			& Video Capture, MediaManager &     & Thilo Weigold \\
-			& Sensor data collection &       & Thilo Weigold \\
-			& Metadata class &       & Thilo Weigold \\
+		Design
+			& Server application & & Alf-André Walla \\
+			& Client application & & Thilo Weigold \\
+			& Client-server interactions & & Alexander Egurnov, Alf-André Walla \\
+		\midrule
+		Android application
+			& Video Capture, MediaManager & & Thilo Weigold \\
+			& Sensor data collection &  & Thilo Weigold \\
+			& Metadata class & & Thilo Weigold \\
 			& Http Client & Post Method & Thilo Weigold \\
 			&       & Cookies, Callbacks & Alexander Egurnov \\
 			&       & Get \& Update methods & Alexander Egurnov \\
-			& Background upload service  &       & Thilo Weigold \\
-			& SQLite database connection &       & Thilo Weigold \\
-			& Preferences &       & Alexander Egurnov \\
-			& GUI   &       & Thilo Weigold, Alexander Egurnov \\
-			& Client-server data exchange &       & Alexander Egurnov \\
+			& Background upload service  & & Thilo Weigold \\
+			& SQLite database connection & & Thilo Weigold \\
+			& Preferences & & Alexander Egurnov \\
+			& GUI & & Thilo Weigold, Alexander Egurnov \\
+			& Client-server data exchange & & Alexander Egurnov \\
 		\midrule
-			Server application 
+		Server application 
 			& RESTful Server application & Client authorization & Alf-André Walla \\
 			&       & Request processing & Alf-André Walla \\
 			&       & Video and Event logic & Alf-André Walla \\
-			& MySQL database connection &       & Jon Pettersen \\
-			& Video Director  &       & Alf-André Walla \\
-			& Client-server data exchange debug &       & Alexander Egurnov \\
-			& Video upload &       & Alf-André Walla, Alexander Egurnov \\
+			& MySQL database connection & & Jon Pettersen \\
+			& Video Director  & & Alf-André Walla \\
+			& Client-server data exchange debug & & Alexander Egurnov \\
+			& Video upload & & Alf-André Walla, Alexander Egurnov \\
 		\midrule
-			Web Server 
-			& MySQL Administration &       & Alexander Egurnov \\
-			& Nginx setup for streaming video &       & Alexander Egurnov \\
-			&       &       &  \\
-			&       &       &  \\
+		Evaluation
+			& Data usage & & \\
+			& Battery usage & & \\
 		\midrule
-			Documentation & Basic template formatting & & Alexander Egurnov \\
-			&       Introduction      & & Thilo Weigold \\
-			&       Related Work      & & Jon Pettersen  \\
-			&       System Overview   & & Thilo Weigold  \\
-			&		Client application & & Thilo Weigold \\
+		Web Server
+			& MySQL Administration & & Alexander Egurnov \\
+			& Nginx setup for streaming video & & Alexander Egurnov \\
+		\midrule
+		Documentation 
+			& Basic template formatting & & Alexander Egurnov \\
+			& Images and other data & & \\
+			& Introduction & & Thilo Weigold, Alexander Egurnov \\
+			& Methodology & Related Work & Jon Pettersen \\
+			&       & System Overview & Thilo Weigold \\
+			&		& Client application & Thilo Weigold \\
+			&		& Server application & \\
+			&		& Client-server interactions & \\
+			& Video Director & & \\
+			& Evaluation & & \\
+			& Future Work & & \\
+			& Conclusion & & \\
 		\bottomrule
     \end{tabular}%
 \end{table*}%
-\hfill
+
+\vfill
 
 
 \end{document}
