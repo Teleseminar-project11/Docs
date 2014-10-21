@@ -326,7 +326,31 @@ As a final result we should state that metadata is transferred in JSON format.
 
 \subsection{Video life cycle}
 
+Video metadata is stored in the database upon receiving it from a client. A temporary video instance
+is then created on the server to manage interactions with a short-lived client session. Once that session
+is over, the client will no longer be able to upload his videos, unless he uploads the same metadata again.
+The server would likely not accept these new videos as a great deal of time would have passed. Any live stream
+would be running far ahead of the time these videos were shot. After the client has uploaded metadata, the
+videos are store in the database with the status flag set to 0 (METADATA). To be able to upload a video,
+the client must connect to the server, and issue a HTTP GET call on /selected, where the server will make
+a decision on which videos of his that will be eligible for upload. If a video is selected, identifying
+information is returned as a JSON string, and the client can then issue HTTP POST with path /video/[id].
+Once the video has been received, its status is set to 1 (RECEIVED). A video can further be promoted to
+status 2 (PUBLISHED), in which it could be visible for, say, an event stream.
+
+Due to many videos not being actively uploaded, and older videos still remaining, a pruning mechanism could
+be implemented to clean out older videos and metadata.
+
 \subsection{Selection algorithm}
+
+When selecting a video for upload, the server will consider all pending videos for a given client,
+then for each event of that video (should be just one) check if the client has any pending videos that
+are top-ranked. This is done through a simplistic ranking algorithm that considers video duration, tilt
+and shaking. The latter two based on motion sensor data. Tilt and shaking is mapped from 0 to infinity
+using a sigmoid function separately, and then transformed to account for video duration. The last step
+is weighing tilt and shake (with duration accounted for) and then scaling it from 0-100.
+The selection algorithm is currently calibrated to work best with shorter videos ranging from 10-60 seconds,
+although it may at any point be recalibrated for any other arbitrary range.
 
 \section{Evaluation}
 How good/bad it is.
@@ -334,7 +358,7 @@ How good/bad it is.
 \subsection{Data Traffic} 
 Thilo can test it. I will have a look to this. If someone has experience please let me know.
 
-\subsection{Battry consumptio}
+\subsection{Battery consumption}
 Who wants to test it?
 
 \subsection{Selection criteria}
