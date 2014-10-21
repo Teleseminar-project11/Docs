@@ -318,7 +318,7 @@ Therefore unpredictable delays might result in poor usability experiences of the
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
 First it is necessary to prevent network operations blocking the application's user interface.
 Doing so all network operations need to be run as an instance 
-of the specified \textsc{HttpAsyncTask} class, which extends default Android's \textsc{AsyncTask} class, recommended by Google to use, in order to fire new asynchronous Tasks from the UI thread.
+of the specified \textsc{HttpAsyncTask} class, which extends Android's \textsc{AsyncTask} class, recommended by Google to use, in order to fire new asynchronous Tasks from the UI thread.
 
 Each instance of our \textsc{HttpAsyncTask} class, defines a new \textsc{HttpUrlConnection}, which is opened and closed.
 Thus request type, request url, meta data and a callback function have to be indicated as parameters to create this instance.
@@ -328,7 +328,6 @@ sending OutputStreams and reading InputStreams are done independently of the UI 
 Secondly the application requires an automatic checkup and upload of selected videos, even when users leave the application and multitasking 
 is done virtually. Such an feature can be realized in Android by implementing a service class, which handles background computations in the main 
 thread. A second thread within this service class is used to request  every 10 seconds potential selected video ids via HTTP GET from the server, in order to upload video files via HTTP PUT.
-
 By doing so we make sure, that all network operations run independently and separated of our main thread.
 
 Further core function is the recording of videos. Hereby we do not use the phone's default camera application,
