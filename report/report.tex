@@ -363,11 +363,14 @@ Therefore it is necessary to define the data interchange format, which fulfills 
 By implementing a RESTful Web Service, two formats are particularly interesting to consider: JSON and XML.
 Both formats have their advantages and drawbacks, which are explained in context for our decision making in the following.
 %TODO INSERT PAPER Nurzhan Nurseitov + BOOK RICHARSDON & RUBY
-JSON is a lightweight and a extremely readable format. Its structural Strings resembles simple data structures in general. It is easy to use and parse for computers, which leads to an advantage to save 
-computational power on client and server side. Serialization and deserialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML.
+JSON is a lightweight and a extremely readable format. Its structural Strings resembles simple data structures in general. 
+It is easy to use and parse for computers, which leads to an advantage to save computational power on client and server side. 
+Serialization and deserialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML.
 According to Richardson and Ruby XML is mainly used when it is necessary to describe data structures, which fit into the document paradigm. 
-Therefore exchanging meta data in our case does not come with the need to use complex and profound structures like XML. Within the HTTP POST REQUEST and HTTP POST RESPONSE, as well as the HTTP GET RESPONSE  of our application, the request-/response body can bes described as a simple JSON string,
-In the following all the meta data exchange of our HTTP REQUESTS and RESPONSES are shown in the used JSON format:
+Therefore exchanging meta data in our case does not come with the need to use complex and profound structures like XML. 
+Within the HTTP POST REQUEST and HTTP POST RESPONSE, as well as the HTTP GET RESPONSE  of our application, 
+the request-/response body can be described as a simple JSON string, In the following all the meta data exchange of our HTTP REQUESTS and 
+RESPONSES are shown in the used JSON format:
 
 \begin{description}
 	\item[POST /event/\textit{event\_id}]\hfill\\	
