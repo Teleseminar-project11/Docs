@@ -227,7 +227,7 @@ This architectural set up entails some important advantages. Client-Server gives
 
 In a nutshell, the client application consists of four main logical components: user interface, http client connection, camera and sensor retrieving and the persistent database.
 
-Great effort of development was raised on the client and server communication part. As an communication protocol between client and server we decided to use exclusively Http. Since Google is not supporting Apache Http Clients anymore, we decided to use the HttpURLConnection Client, which is lightweight, simple to handle as well as applicable for all purposes we are aiming to do. "Reference to android-developers.blogspot".
+As an communication protocol between client and server we decided to use exclusively Http. Since Google is not supporting Apache Http Clients anymore, we decided to use the HttpURLConnection Client, which is lightweight, simple to handle as well as applicable for all purposes we are aiming to do. "Reference to android-developers.blogspot".
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
 First it was necessary to prevent network operations blocking the application's user interface. Bad usability would be the result, if the interface crashes, with every failed or delayed network operation. Therefore all network operations need to be run as an instance of the specified HttpAsnycTask class, a heredity of the AsyncTask class. Doing so we make sure that all HTTP requests run asynchronous in the background of the application's main thread.
 Secondly the application requires an automatic checkup and upload of selected videos, even when users leave the application and multitasking is done virtually. Such an feature can be realized in Android by implementing a service class, which handles background computations in the main thread. A second thread within this service class is used to request potential selected video ids via Http-GET, in order to upload video files via Http-PUT.
@@ -281,10 +281,28 @@ It is implemented through HTTP requests to certain server locations result.
 		
 \end{description}
 
-\subsection{Metadata format}
-JSON vs XML arguments here
-As a final result we should state that metadata is transferred in JSON format.
+\subsection{Metadata format and exchange}
 
+To describe the interaction between clients and servers, it is necessary to define the data interchange format.
+By implementing a RESTful Web Service, two formats are particularly interesting to consider: JSON and XML.
+Both formats have their advantages and drawbacks, which are explained in context for our decision making in the following.
+
+JSON is a lightweight and extremely readable format. Its structural Strings resembles simple data structures in general. Therefore it is easy to use and parse for computers, which leads to an advantage to save 
+computational power on client and server side. Serialization and deserialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML. 
+According to Richardson and Ruby XML is mainly used when it is necessary to describe data structures, which fit into the document paradigm. 
+Thus in our case we do not have the need to exchange data of complex and profound structures. Within all HTTP REQUEST and HTTP RESPONSES of our application, the request-/response body can bes described as a simple JSON string.
+Furthermore, due to its simple and lightweight character we are able to reduce data traffic between clients and server. XML comes with big chunks of data in raw text format, which makes the size overhead in comparison to JSON crucial.
+Therefore we decide to use JSON as our preferred interchange format language. As described in the section before, most of our HTTP calls have the purpose to exchange meta data. 
+In the following all the meta data exchange of our HTTP REQUESTS and RESPONSES are shown in the used JSON format:
+
+HTTP POST body	REQUEST: {name: ,finish\_time:, duration:, widht:,height:,shaking:,tilt}
+				RESPONSE: {id:, name:}
+
+HTTP GET body	REQUEST: {}
+				RESPONSE:{...}
+
+HTTP PUT body 	REQUEST: {}
+				RESPONSE: {}
 
 
 % TODO Dummy metadata description.
