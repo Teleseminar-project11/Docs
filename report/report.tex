@@ -71,6 +71,17 @@
 
 \begin{abstract}
 The abstract goes here.
+
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 \end{abstract}
 
 \section{Introduction}
@@ -346,9 +357,12 @@ the table entries, selecting the correct file to be uploaded.
 
 \subsection{Server application}
 
-The server was built using Java 8, Maven, Spark and Gson. Maven allows easy instant deployment to new locations,
-and Spark allows to create RESTful service using the new Java 8 lambdas, which simplifies and concentrates all the client-server
-interactions into the main file. Gson was used to communicate with clients as well as serialize and deserialize SQL results.
+% TODO technologies and structure of server application
+% TODO describe all classes and system interactions
+
+The server was created using Java 8, Maven, Spark and Gson. Maven allows simplifies deployment and management of applications,
+and spark allows creating RESTful service using Java 8's lambdas, which simplifies client-server interactions.
+Gson was used to communicate with clients as well as serialize and deserialize SQL results.
 
 Server application uses a RESTful API to communicate with clients, using actions, such as GET /events.
 
@@ -366,7 +380,10 @@ wide-spread and well established protocol with a lot of tool already available.
 Another advantage of this protocol is that it does not require to maintain a persistent connection between the two ends.
 This important feature allows to prolong battery life and diminish traffic waste.
 
-\subsubsection{Protocol}
+% TODO ADD DIAGRAM FOR CLIENT-SERVER MESSAGES HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\subsubsection{Protocols}
+
 Our Automatic Mobile Video Director server implementation provides 
 a generalized interface to applications which wish to interact with it. 
 It is implemented through RESTful HTTP requests, using certain server locations as actions.
@@ -404,11 +421,14 @@ By implementing a RESTful Web Service, two formats are particularly interesting 
 Both formats have their advantages and drawbacks, which are explained in context for our decision making in the following.
 %TODO INSERT PAPER Nurzhan Nurseitov + BOOK RICHARSDON & RUBY
 
-JSON is a lightweight and extremely readable format. Its structural Strings resembles simple data structures in general. It is easy to use and parse for computers, which leads to an advantage to save 
-computational power on client and server side. Serialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML.
-According to Richardson and Ruby, XML is mainly used when it is necessary to describe data structures which fit into the document paradigm. 
-Therefore exchanging meta data in our case does not come with the need to use complex and profound structures like XML. Within the HTTP POST REQUEST and HTTP POST RESPONSE, as well as the HTTP GET RESPONSE  of our application, it is sufficient to define request-/response bodies as a simple JSON string.
-In the following the meta data exchange of our HTTP REQUESTS and RESPONSES is shown in the used JSON format:
+JSON is a lightweight and a extremely readable format. Its structural Strings resembles simple data structures in general. 
+It is easy to use and parse for computers, which leads to an advantage to save computational power on client and server side. 
+Serialization and deserialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML.
+According to Richardson and Ruby XML is mainly used when it is necessary to describe data structures, which fit into the document paradigm. 
+Therefore exchanging meta data in our case does not come with the need to use complex and profound structures like XML. 
+Within the HTTP POST REQUEST and HTTP POST RESPONSE, as well as the HTTP GET RESPONSE  of our application, 
+the request-/response body can be described as a simple JSON string. In the following all the meta data exchange of our HTTP REQUESTS and 
+RESPONSES are shown in the used JSON format:
 
 \begin{description}
 	\item[POST /event/\textit{event\_id}]\hfill\\	
@@ -493,13 +513,24 @@ is weighing tilt and shake (with duration accounted for) and then scaling it fro
 The selection algorithm is currently calibrated to work best with shorter videos ranging from 10-60 seconds,
 although it may at any point be recalibrated for any other arbitrary range.
 
+EXPAND FURTHER.
+
 \section{Evaluation}
 How good/bad it is.
 
 \subsection{Data Traffic} 
 Thilo can test it. I will have a look to this. If someone has experience please let me know.
 
+1. Measure data consumption
+2. Find data from other video streaming service
+3. Comparison
+
 \subsection{Selection criteria}
+
+Describe the algorithm we use now
+1. We assign some rating based on metadata
+2. We select video based on where the event is at, based on video timestamps
+etc.
 
 \section{Future Work}
 
@@ -553,6 +584,13 @@ It is not hard to implement, but it needs time and some basic web programming kn
 
 \section{Conclusion}
 The conclusion goes here.
+
+% TODO
+WRITE ME:
+EXAMPLE:
+We built a system with video selection algorithm using metadata from clients and so on.
+What did we achieve?
+
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
