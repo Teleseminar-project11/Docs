@@ -14,7 +14,6 @@
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{tabularx}
-\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
@@ -83,12 +82,12 @@ but rather sharing news, videos and pictures from all over the world.
 With the advent of the "Web 2.0" user-generated content has become a crucial part of the Internet we know nowadays.
 % TODO It would be nice to have a link to some kind of report comparing multimedia/web2.0 traffic
 Being social is another rather important need of an average internet user.
-Well-known platforms like YouTube, Twitch, Facebook, Twitter, Instagram, Flickr and many other less famous
-make it easy for regular people to share their thoughts in a vast variety of multimedia formats.
+Well-known platforms like YouTube, Twitch, Facebook, Twitter, Instagram, Flickr and many other
+make it easy for everyone to share their thoughts in a vast variety of multimedia formats.
 
 A considerable contribution to changing the web is done by changing how people typically access it.
 In the past the main role of mobile phones was one-to-one communication. 
-But as the technology evolved, such devices gradually assumed functions of a fully capable handheld computers.
+But as the technology evolved, such devices gradually assumed functions of fully capable handheld computers.
 As all the necessary operations to shoot, process and publish a complex multimedia file moved to a single device, 
 the amount of user-generated content experienced an explosive growth.
 % TODO link to proof
@@ -202,17 +201,61 @@ is being studied by another group. The same applies to the selection criteria of
 % figure/table environments.
 
 \section{Related work}
-As mentioned above the interest of the public to capture and share videos from public events has increased with the introduction of mobile devices with high resolution cameras and wireless internet connection. As such there has also been a huge increase in the number of research projects trying to make this task easier and to reduce the strain represented by the uploading of such videos. \cite{engstrom_mobile_2012} proposes a manual way of making these videos where five people are able to set up a connection between their mobile devices, assign roles to each device, one is assigned the role of director and the others are cameramen, and capture an event taking place where they are.
-Others, like \cite{seshadri_demand_2014} and \cite{shrestha_automatic_2010}, use an algorithm to make the director automatic. With this solution you have to find a way of deciding which of the videos received, is the one covering the event in the best way and with the best picture quality. They propose using metadata from the devices sensors to evaluate the quality of the videos instead of uploading all videos from an event to the server and going through the video frame by frame. This also enables us to just send the best videos to the server, discarding the rest which saves a lot of bandwidth. This is pointed out by \cite{seshadri_demand_2014} as a serious concern at big events like the SuperBowl.
 
-Systems like this can be used to generate a summary of an event by fusing parts of different video clips together. However, to discover exactly when a video is shot represents a challenge. Failing to find the exact time a video is shot may lead to videos overlapping or failing to cover the entire event by leaving gaps in the video summarization \cite{shrestha_automatic_2010}. \cite{jain_focus:_2013} uses GPS to extract their timestamps. \cite{shrestha_automatic_2010} addresses this issue by using the audio in the video files to generate a unified time-line of the event. 
+As mentioned above, public interest to capturing and sharing videos from public events has increased 
+with the introduction of mobile devices with high resolution cameras and wireless internet connection.
+Quite obviously, it entailed an increase in the number of research projects trying to make these tasks easier 
+and to reduce the strain of uploading of such videos by hand.
 
-Another area that has been investigated is the task of identifying what is called region of interest or point of interest. These terms describe areas of the event that are more interesting than others. We probably will find a video of a concert more interesting if the camera is pointing towards the stage than one pointing somewhere else. Several solutions have been proposed for solving this problem. You can go through frames of the video to see if they resemble the main attraction of the event, like a stage on a concert, or the singer on that stage. However the reliance on the sensors in the mobile devices for discovering such regions seems to be a much more preferred method. \cite{cricri_sensor-based_2012} uses the built-in compass found on mobile devices to make sure the camera is pointing in the right direction. This system also uses the compass to detect if the camera changes direction. They make the assumption that if the camera is suddenly turned to face a different way, the user has probable spotted something interesting. Detecting this change in direction allows for a more interesting viewing experience. 
-The detection of something interesting also goes as far as detecting which activity is being filmed.  This is used to relive the managers of such systems from the trouble of marking each video with appropriate tags. \cite{cricri_sport_2014}has created a system that is able to detect which of several sports is being filmed while \cite{bao_movi:_2010} is able to detect when a social happen is taking place in from of it and start recording whenever it detects one. \cite{bao_movi:_2010} analyses sound to detect, among other things, laughter. 
+One possible approach is discussed in \cite{engstrom_mobile_2012}.
+It proposes a way of making videos where five people are able to set up a connection between their mobile devices,
+assign roles to each device, one of them being assigned the role of director and the others are cameramen,
+and capture an event from different perspectives. Video selection is performed manually by the designated person.
 
-Protecting privacy is also an important part of the automated video director systems. However, of the papers we looked at for writing this paper, only one mentions this topic. \cite{bao_movi:_2010} says this on the matter:
-“User privacy is certainly a concern in a system like MoVi. For this paper, we have assumed that attendants in a social party may share mutual trust, and hence, may agree to collaborative video-recording. This may not scale to other social occasions. Certain other applications, such as travel blogging or distributed surveillance may be amenable to MoVi. Even then, the privacy concerns need to be carefully considered.”
+Another paper \cite{shrestha_automatic_2010} focuses on devising an algorithm which would create 
+a ``mashup'' of several video and audio streams automatically.
+More attention is paid to satisfying a formal model of a perfect video, 
+and selection of video streams is solved as an optimization problem.
+However their approach requires all video files to be present when the algorithm works, 
+as it first needs to synchronize them and run image analysis.
 
+In case of live streaming the former approach would require an overwhelming amount of data to be transmitted.
+The paper \cite{seshadri_demand_2014} proposes a method of reducing data traffic significantly.
+They achieve it through the use of metadata captured by all kinds of sensors which are present on modern handheld devices.
+The metadata helps to evaluate quality of videos prior to uploading them from client devices on the event venue to the server.
+This way only the best videos actually get uploaded and consume traffic.
+As it is pointed out in the paper, this is a huge issue for some extremely popular events like USA's SuperBowl \cite{Erman:2013}.
+
+Systems like the ones discussed above can be used to generate a summary of an event by fusing parts of different video clips together.
+However, to discover exactly when a video is shot also represents a challenge. 
+Failing to find the exact time a video is shot may lead to videos overlapping or failing to cover the entire event 
+by leaving gaps in the video timeline \cite{shrestha_automatic_2010}. 
+An approach leveraged in \cite{jain_focus:_2013} is to use GPS to extract timestamps. 
+Another way to addresses this issue is by using the audio in the video files 
+to generate a unified timeline of the event \cite{shrestha_automatic_2010}. 
+
+A different issue is identifying a region of interest or point of interest.
+These terms describe areas of the event that are more interesting than others. 
+We probably will find a video of a concert more interesting if the camera is pointing towards the stage than one pointing somewhere else.
+Several solutions have been proposed for solving this problem.
+One of them is to go through frames of the video to see if they resemble the main attraction of the event, 
+i.e. a stage on a concert, or the singer on that stage. 
+However the reliance on the sensors in the mobile devices for discovering such regions seems to be a more preferable method.
+\cite{cricri_sensor-based_2012} uses the built-in compass found on mobile devices to make sure 
+that the camera is pointing in the right direction.
+Their system also uses compass to detect when camera changes direction. 
+An assumption is made that if operator suddenly turns his or her camera in some direction,
+there is a chance that something interesting is happening there.
+
+When it comes to detecting what is pictured in a video, one might also want to identify the activity which was filmed.
+This can be used to relieve managers of such systems from the trouble of marking each video with appropriate tags. 
+Authors of \cite{cricri_sport_2014} have created a system that is capable of detecting which of several kinds of sport is being filmed.
+
+Another issue is when to start recording and how to define what is an event.
+In the paper \cite{bao_movi:_2010} a system is described which can detect when a social event is taking place, leveraging
+mobile devices sensors and communication between nearby devices.
+The devices then start recording and ultimately a ``highlights'' video coverage is created.
+Among other things, authors use the sound of laughter to trigger event detection.
 
 % TODO Design?
 \section{Methodology}
@@ -437,13 +480,15 @@ The conclusion goes here.
 			& Client-server interactions & & Alexander Egurnov, Alf-André Walla \\
 		\midrule
 		Android application
-			& Video Capture, MediaManager & & Thilo Weigold \\
-			& Sensor data collection &  & Thilo Weigold \\
+			& Video Capture & Implementation & Thilo Weigold \\
+			&       & Autofocus & Alexander Egurnov \\
+			& MediaManager & & Thilo Weigold \\
+			& Sensor data collection & & Thilo Weigold \\
 			& Metadata class & & Thilo Weigold \\
 			& Http Client & Post Method & Thilo Weigold \\
 			&       & Cookies, Callbacks & Alexander Egurnov \\
-			&       & Get \& Update methods & Alexander Egurnov \\
-			& Background upload service  & & Thilo Weigold \\
+			&       & Get \& Upload methods & Alexander Egurnov \\
+			& Background upload service & & Thilo Weigold \\
 			& SQLite database connection & & Thilo Weigold \\
 			& Preferences & & Alexander Egurnov \\
 			& GUI & & Thilo Weigold, Alexander Egurnov \\
@@ -454,7 +499,7 @@ The conclusion goes here.
 			&       & Request processing & Alf-André Walla \\
 			&       & Video and Event logic & Alf-André Walla \\
 			& MySQL database connection & & Jon Pettersen \\
-			& Video Director  & & Alf-André Walla \\
+			& Video Director & & Alf-André Walla \\
 			& Client-server data exchange debug & & Alexander Egurnov \\
 			& Video upload & & Alf-André Walla, Alexander Egurnov \\
 		\midrule
