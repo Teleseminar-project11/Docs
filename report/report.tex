@@ -290,7 +290,6 @@ which would produce big communication overhead to weight of important resources.
 However, these resources are limited and needed for recording videos and sending them upon request to our central Video Director.
 Therefore we believe that the client-server architecture best matches our requirements.
 
-
 The server set up uses local file system for video storage, a MySQL database for storing and retrieving meta data persistently and a RESTful interface to handle HTTP requests and responses.
 Additional core function is the director algorithm which is used to make decisions about which video clients should upload.
 Nginx web server is used to stream resulting video from our web server to viewers.
@@ -307,24 +306,29 @@ Detailed descriptions of our server and client implementation are discussed in t
 
 \subsection{Client application}
 
-The client application consists of four main logical components: 
-user interface, HTTP client, camera and sensor modules and a persistent database.
+The client application is designed in four main logical components: 1. HTTP connection, 2. camera and sensors, 3. the persistent database and 4. user interface.
 
 As a communication protocol between client and server we decided to use HTTP.
 Two major options for HTTP clients are Apache HTTP Client and \textsc{HttpURLConnection}.
 Since it is recommended to use \textsc{HttpURLConnection} for Android Gingerbread and later \cite{jesse_wilson_androids},
 we decided to go with it.
 It is lightweight, simple to handle as well as applicable for all purposes we are aiming to do.
-
+When a HttpUrlConnection is obtained, the application's main thread is used and blocked as long as the connection is open.
+Therefore unpredictable delays might result in poor usability experiences of the user interface.
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
-First it is necessary to prevent network operations blocking the application's user interface, resulting in poor usability experience.
-Therefore all network operations need to be run as an instance of the specified \textsc{HttpAsyncTask} class, 
-a heredity of the \textsc{AsyncTask} class.
-Doing so we make sure that all HTTP requests run asynchronously in the background of the application's main thread.
-Secondly, the application requires an automatic upload of selected videos, even when users leave the application.
-Such feature can be realized in Android by implementing a service class, which handles background computations in the main thread. 
-A second thread within this service class is used to request potential selected video ids via HTTP GET every 10 seconds,
-in order to upload video files via HTTP PUT if necessary.
+First it is necessary to prevent network operations blocking the application's user interface.
+Doing so all network operations need to be run as an instance 
+of the specified \textsc{HttpAsyncTask} class, which extends default Android's \textsc{AsyncTask} class, recommended by Google to use, in order to fire new asynchronous Tasks from the UI thread.
+
+Each instance of our \textsc{HttpAsyncTask} class, defines a new \textsc{HttpUrlConnection}, which is opened and closed.
+Thus request type, request url, meta data and a callback function have to be indicated as parameters to create this instance.
+Afterwards a new \textsc{HttpUrlConnection} can be fired within the doInBackground(String...urls) function of the \textsc{HttpAsynTask} class. Consequently all \textsc{HttpUrlConnection} tasks,
+sending OutputStreams and reading InputStreams are done independently of the UI thread.
+
+Secondly the application requires an automatic checkup and upload of selected videos, even when users leave the application and multitasking 
+is done virtually. Such an feature can be realized in Android by implementing a service class, which handles background computations in the main 
+thread. A second thread within this service class is used to request  every 10 seconds potential selected video ids via HTTP GET from the server, in order to upload video files via HTTP PUT.
+
 By doing so we make sure, that all network operations run independently and separated of our main thread.
 
 Further core function is the recording of videos. Hereby we do not use the phone's default camera application,
@@ -348,12 +352,21 @@ The threshold value is initialized as a float constant with the value 0.7f. This
 
 In order to keep track and coupling of stored video files and obtained meta data, we make use of a persistent database,
 implemented with the lightweight SQLite library, which has support from Android side as well.
+<<<<<<< Updated upstream
 The local database set up would not have been entirely necessary. 
 But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
 Each meta data entry has its unique \textsl{id} and each stored video file has its unique \textsl{filename}.
 Therefore we use the database column \textsl{filename} as a unambiguous reference to a specific video file.
 When the client gets notified by the server to upload a video, it is necessary to check the filename in the within 
 the table entries, selecting the correct file to be uploaded.
+=======
+The local database set up would not have been entirely necessary. But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
+Each meta data entry has its unique id and each stored video file has its unique filename.
+Therefore we use the database column filename as a unambiguous reference to a specific video file. When the client gets notified by the server to upload a video, it is necessary to check the filename in the within the table entries, selecting the correct file to be uploaded.
+
+Figure 2 shows the user interface of the application's start activity. 
+
+>>>>>>> Stashed changes
 
 \subsection{Server application}
 
@@ -519,7 +532,6 @@ EXPAND FURTHER.
 How good/bad it is.
 
 \subsection{Data Traffic} 
-Thilo can test it. I will have a look to this. If someone has experience please let me know.
 
 1. Measure data consumption
 2. Find data from other video streaming service
