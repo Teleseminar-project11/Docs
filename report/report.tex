@@ -342,48 +342,53 @@ It is implemented through HTTP requests to certain server locations result.
 		Retrieve video~\textit{video\_id} from Event~\textit{id}.
 		
 	\item[GET /selected]\hfill\\
-		Retrieve a list of selected but not yet uploaded videos in JSON.		
+		Retrieve a list of selected but not yet uploaded videos in JSON.	
 		
 \end{description}
 
 \subsection{Metadata format and exchange}
-
-To describe the interaction between clients and servers, it is necessary to define the data interchange format.
+During the interaction of our clients and the server, video meta data is exchanged.
+Therefore it is necessary to define the data interchange format, which fulfills the requirements to describe the meta data properly.
 By implementing a RESTful Web Service, two formats are particularly interesting to consider: JSON and XML.
 Both formats have their advantages and drawbacks, which are explained in context for our decision making in the following.
-
-JSON is a lightweight and extremely readable format. Its structural Strings resembles simple data structures in general. Therefore it is easy to use and parse for computers, which leads to an advantage to save 
-computational power on client and server side. Serialization and deserialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML. 
+%TODO INSERT PAPER Nurzhan Nurseitov + BOOK RICHARSDON & RUBY
+JSON is a lightweight and a extremely readable format. Its structural Strings resembles simple data structures in general. It is easy to use and parse for computers, which leads to an advantage to save 
+computational power on client and server side. Serialization and deserialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML.
 According to Richardson and Ruby XML is mainly used when it is necessary to describe data structures, which fit into the document paradigm. 
-Thus in our case we do not have the need to exchange data of complex and profound structures. Within all HTTP REQUEST and HTTP RESPONSES of our application, the request-/response body can bes described as a simple JSON string.
-Furthermore, due to its simple and lightweight character we are able to reduce data traffic between clients and server. XML comes with big chunks of data in raw text format, which makes the size overhead in comparison to JSON crucial.
-Therefore we decide to use JSON as our preferred interchange format language. As described in the section before, most of our HTTP calls have the purpose to exchange meta data. 
+Therefore exchanging meta data in our case does not come with the need to use complex and profound structures like XML. Within the HTTP POST REQUEST and HTTP POST RESPONSE, as well as the HTTP GET RESPONSE  of our application, the request-/response body can bes described as a simple JSON string,
 In the following all the meta data exchange of our HTTP REQUESTS and RESPONSES are shown in the used JSON format:
 
-HTTP POST body	REQUEST: {name: ,finish\_time:, duration:, widht:,height:,shaking:,tilt}
-				RESPONSE: {id:, name:}
+\begin{description}
+	\item[POST /event/\textit{event\_id}]\hfill\\	
+				REQUEST: \textit{\{ name:””, finish\_time:””, duration:””, width:””, height:””, shaking:””, tilt:”” \}}\hfill \\
+				RESPONSE: \textit{\{ id:””, name:”” \}}
 
-HTTP GET body	REQUEST: {}
-				RESPONSE:{...}
+	\item[GET /selected]\hfill\\		
+				REQUEST: \textit{\{\}}\hfill \\
+				RESPONSE:\textit{\{ id:””, event\_id:””, finish\_ts:””, status:”” \}}
 
-HTTP PUT body 	REQUEST: {}
-				RESPONSE: {}
+\end{description}
+
+Due to its simple and lightweight character we are able to reduce data traffic between clients and server. 
+XML comes with big chunks of data in raw text format, which makes the size overhead in comparison to JSON crucial.
+The data traffic amount might seem not differ much at first, but considering that a plurality of clients request GET/selected every 10 seconds and upload videos via the mobile network, client costs and bandwidth problems are definitely minimized using JSON. Therefore we decide to use JSON as our preferred interchange format language.
+
 
 
 % TODO Dummy metadata description.
 \begin{description}
 	\item[id]\hfill\\
-		Client-side unique identification of the video.
+		Server-side unique identification of the video. On CLient siede named as server\_id.
 		
 	\item[filename]\hfill\\
 		File name in client's local file system.
 		
-	\item[timestamp]\hfill\\
+	\item[finish\_time]\hfill\\
 		Video creation time.
 		%TODO Is it really so?
 		
 	\item[duration]\hfill\\
-		Video duration in frames.
+		Video duration.
 		%TODO This thing too.
 		
 	\item[width]\hfill\\
@@ -394,14 +399,15 @@ HTTP PUT body 	REQUEST: {}
 	
 	\item[shaking]\hfill\\
 		Amount of shaking detected by sensors.
+
+	\item[titl]\hfill\\
+		The amount of tilt holding of the camera.
 	
 	\item[status]\hfill\\
 		Video status. Indicates video life cycle phase.
 		% TODO It would be nice to decide on video lifecycle both client- and server-side.
 		%	It would make a nice diagram to include in the report.
-	
-	\item[serverId]\hfill\\
-		Server-side unique identification of the video. Needed for coordination of all clients.
+
 		
 \end{description}
 
