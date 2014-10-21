@@ -302,13 +302,24 @@ is done virtually. Such an feature can be realized in Android by implementing a 
 thread. A second thread within this service class is used to request potential selected video ids via Http-GET, in order to upload video files via Http-PUT.
 By doing so we make sure, that all network operations run independently and separated of our main thread, while fulfilling their tasks.
 
+Further core function is the recording of videos. Using Android's MediaRecorder class we are able to handle access to the phone's build-in camera
+as well as the recording and storage of video files.
+Simultaneously sensor data is tracked as well.
+Thereby we use the observer pattern. Sensor detection classes (ShakeDetection.class \& TiltDetetcion.class) are implemented as Observables,
+while the CameraActivity class registers as a single observer. All in all we have decided not to focus on sensor detection and retrieving.
+A lot of research has been already done in those parts. Due to the shortage of available time we only retrieve some basic accelerometer data,
+in order to determine the amount of shaking and weight of tilt, represented by simple integer values.
+The sensor data is part of the meta data which is sent to the server for directing the video upload process.
+Hereby the amount of shaking is a counter which is increased by one, when ever shaking is detected.
+We assume to be in a shaking motion, when at least two of three accelerometer values have changed to their previous values by a specific threshold.
+The threshold value is initializes as a float literal with the value 0.7f; This value is exclusively based on experimenting.
 
-Further core function is the recording of videos. Using Android's MediaRecorder class we are able to handle access to the phone's build-in camera as well as the recording and storage of video files.
-Simultaneously sensor data is tracked as well. Thereby we use the observer pattern. Sensor detection classes (ShakeDetection.class \& TiltDetetcion.class) are implemented as Observables, while the CameraActivity class registers as a single observer. All in all we have decided not to focus on sensor detection and retrieving. A lot of research has been already done in those parts. Due to the shortage of available time we only retrieve some basic accelerometer data, in order to determine the amount of shaking and weight of tilt, represented by simple integer values. The sensor data is part of the meta data which is sent to the server for directing the video upload process. Hereby the amount of shaking is a counter which is increased by one, when ever shaking is detected. We assume to be in a shaking motion, when at least two of three accelerometer values have changed to their previous values by a specific threshold. The threshold value is initializes as a float literal with the value 0.7f; This value is exclusively based on experimenting.
 
-
-In order to keep track and coupling of stored video files and obtained meta data, we make use of a persistent database, implemented with the lightweight SQLite library, which has support from Android side as well. The local database set up would not have been entirely necessary. But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
-Each meta data entry has its unique id and each stored video file has its unique filename. Therefore we use the database column filename as a unambiguous reference to a specific video file. When the client gets notified by the server to upload a video, it is necessary to check the filename in the within the table entries, selecting the correct file to be uploaded.
+In order to keep track and coupling of stored video files and obtained meta data, we make use of a persistent database,
+implemented with the lightweight SQLite library, which has support from Android side as well.
+The local database set up would not have been entirely necessary. But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
+Each meta data entry has its unique id and each stored video file has its unique filename.
+Therefore we use the database column filename as a unambiguous reference to a specific video file. When the client gets notified by the server to upload a video, it is necessary to check the filename in the within the table entries, selecting the correct file to be uploaded.
 
 
 
@@ -359,14 +370,15 @@ It is implemented through RESTful HTTP requests, using certain server locations 
 
 \subsection{Metadata format and exchange}
 During the interaction of our clients and the server, video meta data is exchanged.
-Therefore it is necessary to define the data interchange format, which fulfills the requirements to describe the meta data properly.
+Therefore it is necessary to define a data interchange format, which fulfills the requirements to describe the meta data properly.
 By implementing a RESTful Web Service, two formats are particularly interesting to consider: JSON and XML.
 Both formats have their advantages and drawbacks, which are explained in context for our decision making in the following.
 %TODO INSERT PAPER Nurzhan Nurseitov + BOOK RICHARSDON & RUBY
-JSON is a lightweight and a extremely readable format. Its structural Strings resembles simple data structures in general. It is easy to use and parse for computers, which leads to an advantage to save 
-computational power on client and server side. Serialization and deserialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML.
-According to Richardson and Ruby XML is mainly used when it is necessary to describe data structures, which fit into the document paradigm. 
-Therefore exchanging meta data in our case does not come with the need to use complex and profound structures like XML. Within the HTTP POST REQUEST and HTTP POST RESPONSE, as well as the HTTP GET RESPONSE  of our application, the request-/response body can bes described as a simple JSON string,
+
+JSON is a lightweight and extremely readable format. Its structural Strings resembles simple data structures in general. It is easy to use and parse for computers, which leads to an advantage to save 
+computational power on client and server side. Serialization between JSON Strings and Objects can be done efficiently, with less effort in comparison to XML.
+According to Richardson and Ruby, XML is mainly used when it is necessary to describe data structures which fit into the document paradigm. 
+Therefore exchanging meta data in our case does not come with the need to use complex and profound structures like XML. Within the HTTP POST REQUEST and HTTP POST RESPONSE, as well as the HTTP GET RESPONSE  of our application, the request-/response body can bes described as a simple JSON string.
 In the following all the meta data exchange of our HTTP REQUESTS and RESPONSES are shown in the used JSON format:
 
 \begin{description}
@@ -384,12 +396,11 @@ Due to its simple and lightweight character we are able to reduce data traffic b
 XML comes with big chunks of data in raw text format, which makes the size overhead in comparison to JSON crucial.
 The data traffic amount might seem not differ much at first, but considering that a plurality of clients request GET/selected every 10 seconds and upload videos via the mobile network, client costs and bandwidth problems are definitely minimized using JSON. Therefore we decide to use JSON as our preferred interchange format language.
 
-
-
+Meta data describes the characteristics of recorded videos. They are mainly relevant for the decision making process of our director function. 
 % TODO Dummy metadata description.
 \begin{description}
 	\item[id]\hfill\\
-		Server-side unique identification of the video. On CLient siede named as server\_id.
+		Server-side unique identification of the video. On Client side named as server\_id.
 		
 	\item[filename]\hfill\\
 		File name in client's local file system.
