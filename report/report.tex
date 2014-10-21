@@ -276,7 +276,7 @@ while computationally intensive tasks are carried out on the server side.
 In peer to peer networks clients would have to communicate with each other, 
 which would produce big communication overhead to weight of important resources.
 However these resources are reserved and needed for recording videos and sending them upon request to our central Video Director.
-Therefore we believe client-server architecture to match our requirements to the Automatic Mobile Video Director in the best way. 
+Therefore we believe that the client-server architecture best matches our requirements to the Automatic Mobile Video Director.
 
 
 %TODO better picture? bigger font?
@@ -290,12 +290,18 @@ Therefore we believe client-server architecture to match our requirements to the
 
 \subsection{Client application}
 
-In a nutshell, the client application consists of four main logical components: user interface, http client connection, camera and sensor retrieving and the persistent database.
+The client application consists of four main logical components: user interface, http client connection, camera and sensor retrieving and the persistent database.
 
-As an communication protocol between client and server we decided to use exclusively Http. Since Google is not supporting Apache Http Clients anymore, we decided to use the HttpURLConnection Client, which is lightweight, simple to handle as well as applicable for all purposes we are aiming to do. "Reference to android-developers.blogspot".
+As a communication protocol between client and server we decided to use exclusively Http. Since Google is not supporting Apache Http Clients anymore, 
+we decided to use the HttpURLConnection Client, which is lightweight, simple to handle as well as applicable for all purposes we are aiming to do. "Reference to android-developers.blogspot".
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
-First it was necessary to prevent network operations blocking the application's user interface. Bad usability would be the result, if the interface crashes, with every failed or delayed network operation. Therefore all network operations need to be run as an instance of the specified HttpAsnycTask class, a heredity of the AsyncTask class. Doing so we make sure that all HTTP requests run asynchronous in the background of the application's main thread.
-Secondly the application requires an automatic checkup and upload of selected videos, even when users leave the application and multitasking is done virtually. Such an feature can be realized in Android by implementing a service class, which handles background computations in the main thread. A second thread within this service class is used to request potential selected video ids via Http-GET, in order to upload video files via Http-PUT.
+First it was necessary to prevent network operations blocking the application's user interface. Bad usability would be the result, 
+if the interface crashes, with every failed or delayed network operation. Therefore all network operations need to be run as an instance 
+of the specified HttpAsnycTask class, a heredity of the AsyncTask class. Doing so we make sure that all HTTP requests run asynchronous in 
+the background of the application's main thread.
+Secondly the application requires an automatic checkup and upload of selected videos, even when users leave the application and multitasking 
+is done virtually. Such an feature can be realized in Android by implementing a service class, which handles background computations in the main 
+thread. A second thread within this service class is used to request potential selected video ids via Http-GET, in order to upload video files via Http-PUT.
 By doing so we make sure, that all network operations run independently and separated of our main thread, while fulfilling their tasks.
 
 
@@ -309,8 +315,15 @@ Each meta data entry has its unique id and each stored video file has its unique
 
 
 \subsection{Server application}
-Server general description goes here.
+
+The server was created using Java 8, Maven, Spark and Gson. Maven allows easy instant deployment to new locations for server,
+and spark allows creating RESTful service using the new Java 8 lambdas, which simplifies and concentrates all the client-server
+interactions into the main file. Gson was used to communicate with clients as well as serialize and deserialize SQL results.
+
+Server application uses a RESTful API to communicate with clients, using actions, such as GET /events.
+
 Video storage, database connection, server framework description. RESTful Web Service
+
 
 \subsection{Client-server interaction}
 BRAINSTROMING: HTTP protocol, 
@@ -318,7 +331,7 @@ BRAINSTROMING: HTTP protocol,
 \subsubsection{Protocols}
 Our Automatic Mobile Video Director server implementation provides 
 a general interface to applications which wish to interact with it. 
-It is implemented through HTTP requests to certain server locations result.
+It is implemented through RESTful HTTP requests, using certain server locations as actions.
 
 \begin{description}
 	\item[GET /events]\hfill\\
@@ -433,7 +446,7 @@ be implemented to clean out older videos and metadata.
 \subsection{Selection algorithm}
 
 When selecting a video for upload, the server will consider all pending videos for a given client,
-then for each event of that video (should be just one) check if the client has any pending videos that
+then for each event of a video (should be just one) check if the client has any pending videos that
 are top-ranked. This is done through a simplistic ranking algorithm that considers video duration, tilt
 and shaking. The latter two based on motion sensor data. Tilt and shaking is mapped from 0 to infinity
 using a sigmoid function separately, and then transformed to account for video duration. The last step
@@ -455,8 +468,12 @@ Who wants to test it?
 \section{Future Work}
 Put down all the awesome ideas we have.
 
-A better solution to this problem would to use the sound in the video to identify unique places in the event and synchronize the video based on this sound track. This system is described in \cite{shrestha_automatic_2010}. 
-The timestamps represent a weakness in our system. They are generated based on the clock in the mobile device and people can set that clock to whatever they like. This creates uncertainty about the actual time a video was captured.
+A better solution to this problem would to use the sound in the video to identify unique places in the event and
+synchronize the video based on this sound track. This system is described in \cite{shrestha_automatic_2010}. 
+Time synchronization represent a weakness in our system, as they are generated based on the clock in the mobile device
+and people can set that clock to whatever they like. This creates uncertainty about the actual time a video was captured.
+
+It could be possible to rebuild an ongoing stream more exactly ...
 
 
 \section{Conclusion}
