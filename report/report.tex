@@ -288,10 +288,14 @@ Therefore we believe that the client-server architecture best matches our requir
 
 \subsection{Client application}
 
-The client application consists of four main logical components: user interface, http client connection, camera and sensor retrieving and the persistent database.
+The client application consists of four main logical components: 
+user interface, HTTP client, camera and sensor modules and a persistent database.
 
-As a communication protocol between client and server we decided to use exclusively Http. Since Google is not supporting Apache Http Clients anymore, 
-we decided to use the HttpURLConnection Client, which is lightweight, simple to handle as well as applicable for all purposes we are aiming to do. "Reference to android-developers.blogspot".
+As a communication protocol between client and server we decided to use HTTP.
+Two major options for HTTP clients are Apache HTTP Client and HttpURLConnection.
+Since it is recommended to use HttpURLConnection for Android Gingerbread and later \cite{jesse_wilson_androids},
+we decided to go with it.
+It is lightweight, simple to handle as well as applicable for all purposes we are aiming to do.
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
 First it was necessary to prevent network operations blocking the application's user interface. Bad usability would be the result, 
 if the interface crashes, with every failed or delayed network operation. Therefore all network operations need to be run as an instance 
