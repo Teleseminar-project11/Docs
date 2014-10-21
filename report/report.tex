@@ -71,6 +71,17 @@
 
 \begin{abstract}
 The abstract goes here.
+
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WRITE ME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 \end{abstract}
 
 \section{Introduction}
@@ -342,9 +353,12 @@ Therefore we use the database column filename as a unambiguous reference to a sp
 
 \subsection{Server application}
 
-The server was created using Java 8, Maven, Spark and Gson. Maven allows easy instant deployment to new locations for server,
-and spark allows creating RESTful service using the new Java 8 lambdas, which simplifies and concentrates all the client-server
-interactions into the main file. Gson was used to communicate with clients as well as serialize and deserialize SQL results.
+technologies and structure of server application
+describe all classes and system interactions
+
+The server was created using Java 8, Maven, Spark and Gson. Maven allows simplifies deployment and management of applications,
+and spark allows creating RESTful service using Java 8's lambdas, which simplifies client-server interactions.
+Gson was used to communicate with clients as well as serialize and deserialize SQL results.
 
 Server application uses a RESTful API to communicate with clients, using actions, such as GET /events.
 
@@ -353,6 +367,8 @@ Video storage, database connection, server framework description. RESTful Web Se
 
 \subsection{Client-server interaction}
 BRAINSTROMING: HTTP protocol, 
+
+    ADD DIAGRAM FOR CLIENT-SERVER MESSAGES HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \subsubsection{Protocols}
 Our Automatic Mobile Video Director server implementation provides 
@@ -484,16 +500,24 @@ is weighing tilt and shake (with duration accounted for) and then scaling it fro
 The selection algorithm is currently calibrated to work best with shorter videos ranging from 10-60 seconds,
 although it may at any point be recalibrated for any other arbitrary range.
 
+EXPAND FURTHER.
+
 \section{Evaluation}
 How good/bad it is.
 
 \subsection{Data Traffic} 
 Thilo can test it. I will have a look to this. If someone has experience please let me know.
 
-\subsection{Battery consumption}
-Who wants to test it?
+1. Measure data consumption
+2. Find data from other video streaming service
+3. Comparison
 
 \subsection{Selection criteria}
+
+Describe the algorithm we use now
+1. We assign some rating based on metadata
+2. We select video based on where the event is at, based on video timestamps
+etc.
 
 \section{Future Work}
 Put down all the awesome ideas we have.
@@ -542,6 +566,12 @@ of interest is therefore very important.
 
 \section{Conclusion}
 The conclusion goes here.
+
+WRITE ME:
+EXAMPLE:
+We built a system with video selection algorithm using metadata from clients and so on.
+What did we achieve?
+
 
 
 % trigger a \newpage just before the given reference
