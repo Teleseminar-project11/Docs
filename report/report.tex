@@ -378,6 +378,19 @@ Therefore we use the database column \textsl{filename} as a unambiguous referenc
 When the client gets notified by the server to upload a video, it is necessary to check the filename in the within 
 the table entries, selecting the correct file to be uploaded.
 
+\subsubsection{user interface}
+
+Currently the user interface is designed for debugging purposes.
+It contains buttons and messages, which provide detailed information about current processes and also might be helpful for normal users.
+Status messages about ongoing processes are shown as so called Toast Messages. 
+As seen in Figure the user interface can be divided into two parts: the starting point of the application and the actual camera recording application.
+All functionalities are reachable from the starting point (\texttt{MainActivity}) of our application. To record a video the user has to press the \texttt{Record and Share} button.
+Doing so, another activity (\texttt{CameraActivity}) is started and shows the camera preview interface. Here the user can record videos by pressing the button \texttt{Capture}. While recording the usergets information, about shaking motions and camera tilt. WHen a video is recorded, a status message appears which shows if meta data is uploaded successfully or not. If a a video can be uploaded another correspondingly toast message appears.
+
+
+
+
+
 \subsection{Server application}
 
 The server was created using Java 8, Maven, Spark (for Java 8), jetty and Gson. Maven allows simplified project
