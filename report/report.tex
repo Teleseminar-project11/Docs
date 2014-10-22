@@ -383,9 +383,10 @@ the table entries, selecting the correct file to be uploaded.
 Currently the user interface is designed for debugging purposes.
 It contains buttons and messages, which provide detailed information about current processes and also might be helpful for normal users.
 Status messages about ongoing processes are shown as so called Toast Messages. 
-As seen in Figure~\ref{fig:ui_main} and ~\ref{fig:ui_metadata} the user interface can be divided into two main parts: the starting point of the application and the actual camera recording application.
+As seen in Figure~\ref{fig:ui_main} and Figure~\ref{fig:ui_metadata} the user interface can be divided into two main parts: the starting point of the application and the actual camera recording application.
 All functionalities are reachable from the starting point (\texttt{MainActivity}) of our application. To record a video the user has to press the \texttt{Record and Share} button.
 Doing so, another activity (\texttt{CameraActivity}) is started and shows the camera preview interface. Here the user can record videos by pressing the button \texttt{Capture}. While recording the user gets information, about shaking motions and camera tilt. When a video is recorded, a status message appears which shows if meta data is uploaded successfully or not. If a a video can be uploaded another correspondingly toast message appears.
+Per settings it is possible to define the ip address and port number of the server and network communications.
 
 
 \begin{figure}[!t]
