@@ -527,36 +527,38 @@ Due to its simple and lightweight character we are able to reduce data traffic b
 XML comes with big chunks of data in raw text format, which makes the size overhead in comparison to JSON crucial.
 The data traffic amount might seem not differ much at first, but considering that a plurality of clients request GET/selected every 10 seconds and upload videos via the mobile network, client costs and bandwidth problems are definitely minimized using JSON. Therefore we decide to use JSON as our preferred interchange format language.
 
-The meta data consists of following attributes:
+The meta data consists of following attributes. Attributes are remapped from client to server usage for HTTP POST:
 
 \begin{description}
-	\item[id] 
-		Server-side unique identification of the video. 
-		On Client side named as server\_id, while id the client-side unique identifier represents.
+	\item[id] \hfill\\
+		Server-side unique identification of the video. \hfill\\ E.g.: {\{id:”1”,....\}}
 
-	\item[name]
-		File name in client's local file system. On client side called filename.
+	\item[name]\hfill\\
+		File name in client's local file system. \hfill\\ E.g.: {\{name:”VID\_20141021\_224829.mp4”,....\}}
 		
 	\item[finish\_time]\hfill\\
-		Video creation time. On client side named as timestamp. 
+		Video creation time in the format: yyyy-mm-dd hh:mm:ss \hfill\\ E.g.: {\{finish\_time:”2014-10-21 22:48:33.0”,....\}}
 
 	\item[duration]\hfill\\
-		Video duration.
+		Video duration in milliseconds. \hfill\\ E.g.: {\{duration:”15679”,....\}}
 		
 	\item[width]\hfill\\
-		Video frame width in pixels.
+		Video frame width in pixels. \hfill\\ E.g.: {\{width:”1920”,....\}}
 
 	\item[height]\hfill\\
-		Video frame height in pixels.		
+		Video frame height in pixels. \hfill\\ E.g.: {\{height:”1080”,....\}}	 
 	
 	\item[shaking]\hfill\\
-		Amount of shaking detected by sensors.
+		Amount of shaking detected by sensors. \hfill\\ E.g.: {\{shaking:”24”,....\}}
 
 	\item[tilt]\hfill\\
-		The amount of tilt holding of the camera.
+		The amount of tilt holding of the camera. \hfill\\ E.g.: {\{tilt:”110”,....\}}
 	
 	\item[status]\hfill\\
-		Video status. Indicates video life cycle phase.
+		Video status. Indicates video life cycle phase. \hfill\\ E.g.: {\{status:”1”,....\}}
+
+	\item[event\_id]\hfill\\
+		Unique server-side identifier of an event. \hfill\\ E.g.: {\{event\_id:”111”,....\}}
 
 		
 \end{description}
