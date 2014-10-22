@@ -375,7 +375,7 @@ The local database set up would not have been entirely necessary.
 But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
 Each meta data entry has its unique \textsl{id} and each stored video file has its unique \textsl{filename}.
 Therefore we use the database column \textsl{filename} as a unambiguous reference to a specific video file.
-When the client gets notified by the server to upload a video, it is necessary to check the filename in the within 
+When the client gets notified by the server to upload a video, it is necessary to check the filename within 
 the table entries, selecting the correct file to be uploaded.
 
 \subsubsection{user interface}
