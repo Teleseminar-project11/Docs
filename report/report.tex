@@ -316,7 +316,7 @@ In order to ensure a smooth work flow of the application, we have to make use of
 
 First it is necessary to prevent network operations blocking the application's user interface.
 Doing so all network operations need to be run as an instance
-of the specified \texttt{HttpAsyncTask} class, which extends Android's \texttt{AsyncTask} class, recommended by Google to use, in order to fire new asynchronous Tasks from the UI thread \cite{gilles_debunne_androids}.
+of the specified \texttt{HttpAsyncTask} class, which extends Android's \texttt{AsyncTask} class, in order to fire new asynchronous Tasks from the UI thread \cite{gilles_debunne_androids}.
 
 Each instance of our \texttt{HttpAsyncTask} class, defines a new \texttt{HttpUrlConnection}.
 
@@ -344,6 +344,7 @@ Figure~\ref{fig:mediarecorder} \cite{mediarec_doc} shows the supposed behavior o
 The function \texttt{CameraActivity}.\textsl{prepareMediaRecorder()} follows the supposed main strand,
 by setting the Video and Audio Input Sources, defining the Output format (MP4) and setting the preview surface for displaying the camera stream.
 After preparing the \texttt{MediaRecorder} it is ready for starting the recording, which is triggered in the \textsl{recordListener()}.
+We decided to store all files in the external, public directory of the mobile phone, in order to provide the captured videos for further usage.
 
 Simultaneously to video capturing, sensor data is tracked as well.
 In order to couple sensor and video capture we make use of the observer pattern.
