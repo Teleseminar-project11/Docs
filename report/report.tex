@@ -302,7 +302,9 @@ Detailed descriptions of our server and client implementation are discussed in t
 
 The client application is designed in four main logical components: 1. HTTP connection, 2. camera and sensors, 3. the persistent database and 4. user interface.
 
+\subsubsection{HTTP connection}
 As a communication protocol between client and server we decided to use HTTP.
+
 Two major options for HTTP clients are Apache HTTP Client and \texttt{HttpURLConnection}.
 Since it is recommended to use \texttt{HttpURLConnection} for Android Gingerbread and later \cite{jesse_wilson_androids},
 we decided to go with it.
@@ -316,7 +318,8 @@ First it is necessary to prevent network operations blocking the application's u
 Doing so all network operations need to be run as an instance
 of the specified \texttt{HttpAsyncTask} class, which extends Android's \texttt{AsyncTask} class, recommended by Google to use, in order to fire new asynchronous Tasks from the UI thread \cite{gilles_debunne_androids}.
 
-Each instance of our \texttt{HttpAsyncTask} class, defines a new \texttt{HttpUrlConnection}, which is opened and closed.
+Each instance of our \texttt{HttpAsyncTask} class, defines a new \texttt{HttpUrlConnection}.
+
 Thus request type, request url, meta data and a callback function have to be indicated as parameters to create this instance.
 Afterwards a new \texttt{HttpUrlConnection} can be fired within the \textsl{doInBackground(String...urls)} function of the \texttt{HttpAsynTask} class. Consequently all \texttt{HttpUrlConnection} tasks,
 sending \texttt{OutputStream}s and reading \texttt{InputStream}s are done independently of the UI thread.
@@ -324,12 +327,13 @@ Since we need to make special requests to the server, this class serves as an in
 Client session identification on the server is implemented through cookie mechanism. 
 On order to support it, a custom cookie storage was implemented based on a freely available example \cite{so_java_cookies}.
 
-Secondly, the application requires an automatic upload of selected videos, even when users leave the application.
+As well the application requires an automatic upload of selected videos, even when users leave the application.
 Such feature can be realized in Android by implementing a service class, which handles background computations in the main thread. 
 A second thread within this service class is used to request potential selected video ids via HTTP GET every 10 seconds,
 in order to upload video files via HTTP PUT if necessary.
 By doing so we make sure, that all network operations run independently and separated of our main thread.
 
+\subsubsection{Camera \& Sensors}
 Further core elements of the application are camera and sensors, used for exclusively capturing videos and sensor data simultaneously.
 For video recording we do not use the phone's default camera application,
 rather writing our own camera activity, which can be suited to our requirements and implemented in the \texttt{CameraActivity} class.
@@ -338,7 +342,7 @@ as well as the recording and the storage of video files.
 
 Figure~\ref{fig:mediarecorder} \cite{mediarec_doc} shows the supposed behavior of the \texttt{MediaRecoder} in its different states. 
 The function \texttt{CameraActivity}.\textsl{prepareMediaRecorder()} follows the supposed main strand,
-by setting the Video and Audio Input Sources, defining the Output format, which is mp4 and setting the preview surface for displaying the camera stream.
+by setting the Video and Audio Input Sources, defining the Output format (MP4) and setting the preview surface for displaying the camera stream.
 After preparing the \texttt{MediaRecorder} it is ready for starting the recording, which is triggered in the \textsl{recordListener()}.
 
 Simultaneously to video capturing, sensor data is tracked as well.
@@ -363,8 +367,9 @@ The threshold value is initialized as a float constant with the value 0.7f. This
 	\label{fig:mediarecorder}
 \end{figure}
 
+\subsubsection{SQLite database}
 In order to keep track and coupling of stored video files and obtained meta data, we make use of a persistent database,
-implemented with the lightweight SQLite library, which has support from Android side as well.
+implemented with the lightweight SQLite library.
 The local database set up would not have been entirely necessary. 
 But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
 Each meta data entry has its unique \textsl{id} and each stored video file has its unique \textsl{filename}.
@@ -433,7 +438,7 @@ wide-spread and well established protocol with a lot of tool already available.
 Another advantage of this protocol is that it does not require to maintain a persistent connection between the two ends.
 This important feature allows to prolong battery life and diminish traffic waste.
 
-\subsubsection{Protocol}
+\subsection{Protocol}
 
 Our Automatic Mobile Video Director server implementation provides 
 a generalized interface to applications which wish to interact with it. 
@@ -482,7 +487,7 @@ Event management API calls are not currently used in client application.
 	\label{fig:protocol}
 \end{figure}
 
-\subsection{Meta data format and exchange}
+\subsubsection{Meta data format and exchange}
 The exchange of meta data is an important part of our client - server communication.
 Therefore it is necessary to define a data interchange format, which fulfills the requirements to describe the meta data properly.
 By implementing a RESTful Web Service, two formats are particularly interesting to consider: JSON and XML.
