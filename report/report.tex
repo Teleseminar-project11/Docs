@@ -353,16 +353,43 @@ Therefore we use the database column filename as a unambiguous reference to a sp
 
 \subsection{Server application}
 
-technologies and structure of server application
-describe all classes and system interactions
+The server was created using Java 8, Maven, Spark (for Java 8), jetty and Gson. Maven allows simplified project
+management and deployment, and spark allows creating RESTful service using Java 8's lambdas, which
+simplifies client-server interactions. Gson was used to communicate with clients as well as serialize
+and deserialize SQL results. jetty is the webserver which processes all incoming requests and outgoing responses.
 
-The server was created using Java 8, Maven, Spark and Gson. Maven allows simplifies deployment and management of applications,
-and spark allows creating RESTful service using Java 8's lambdas, which simplifies client-server interactions.
-Gson was used to communicate with clients as well as serialize and deserialize SQL results.
+The server application serves content using a RESTful API provided by Spark. This is done through using Sparks
+lambda functions to define REST API actions and then Gson to convert to and from JSON trees.
 
-Server application uses a RESTful API to communicate with clients, using actions, such as GET /events.
+Everything starts in the main class Main, where all the REST actions are defined and implemented. From here,
+the main class communicates with an instance of the Director class which acts as the manager. The main
+class is also responsible for sending and receiving videos through processing HTTP input and output streams
+as well as maintaining client sessions.
 
-Video storage, database connection, server framework description. RESTful Web Service
+Client sessions are used to manage the video upload system, where clients get assigned videos they have uploaded
+metadata for, and if a video gets selected they are allowed to upload the selected videos to the server.
+Sessions are part of the Spark library, and allows us to uniquely identify short-term client connections. Using
+sessions means we don't have to have a registration system in place to uniquely identify clients, which in itself
+has both good and bad sides to it. The system is designed with this in mind, but does not have any mechanisms in
+place to detect bad behavior from clients, such as forged metadata.
+
+The Director class manages communication from the web-frontend with the database backend. It has an internal list
+of Client instances which are existing client sessions, and it also rates videos by metadata before they are
+stored in the database.
+
+The DatabaseHandler class manages communication with a database primarily using JSON as both input and output.
+This is done through functions which serialize and deserializes data. All the timestamp-based functionality needed
+for selecting videos sequentially are done through database queries using mySQL unix_timestamp() conversions of
+video and event timestamps.
+
+The VideoRating class provides static functionality to rank videos by certain criterias. This is done by providing
+a set of data that depends on the video duration. In the current implementation, you input video metadata and the
+rating system will transform these values, which are defined from 0 to infinity, down to [0, 1] using a sigmoid function,
+then account for the duration of the video. This is done because shorter videos should get heavier penalties for
+having the same amount or more shaking and tilting as a longer duration video. The function is applied separately to
+shaking and tilting, and afterwards they are combined into a score using a kernel with weights. The final score is
+then multiplied by 100, so that the final range is [0, 100]. This process happens before video metadata is stored
+in the database, as the video itself never changes, and helps the video upload selection process later on.
 
 
 \subsection{Client-server interaction}
@@ -491,16 +518,17 @@ be implemented to clean out older videos and metadata.
 
 \subsection{Selection algorithm}
 
-When selecting a video for upload, the server will consider all pending videos for a given client,
+When selecting a video for upload, given a client, the server will consider all pending videos that client,
 then for each event of a video (should be just one) check if the client has any pending videos that
-are top-ranked. This is done through a simplistic ranking algorithm that considers video duration, tilt
-and shaking. The latter two based on motion sensor data. Tilt and shaking is mapped from 0 to infinity
-using a sigmoid function separately, and then transformed to account for video duration. The last step
-is weighing tilt and shake (with duration accounted for) and then scaling it from 0-100.
-The selection algorithm is currently calibrated to work best with shorter videos ranging from 10-60 seconds,
-although it may at any point be recalibrated for any other arbitrary range.
-
-EXPAND FURTHER.
+are top candidates for that events stream. This is done by asking for the subset of videos which start after
+the event timestamp, and then sorting by video rank. This ensures that the video closest to the events
+timestamp gets selected, so that its possible to maintain a stream of videos sequentially which are determined
+to be of good quality. It also unfortunately means that there can be gaps between videos, and that with not
+enough videos low quality will be selected. After receiving a selected video, the server immediately sets the
+new event timestamp, so even if a new video appears that is of much higher quality, or is more directly
+sequential to the last one, the server will end up using the "guaranteed" video it just received. This could
+be alleviated somewhat by having a potential stream running with a bigger delay from the main event, and then
+doing more intelligent rebuilding of the stream.
 
 \section{Evaluation}
 How good/bad it is.
