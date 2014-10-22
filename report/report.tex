@@ -343,7 +343,7 @@ as well as the recording and the storage of video files.
 Figure~\ref{fig:mediarecorder} \cite{mediarec_doc} shows the supposed behavior of the \texttt{MediaRecoder} in its different states. 
 The function \texttt{CameraActivity}.\textsl{prepareMediaRecorder()} follows the supposed main strand,
 by setting the Video and Audio Input Sources, defining the Output format (MP4) and setting the preview surface for displaying the camera stream.
-After preparing the \texttt{MediaRecorder} it is ready for starting the recording, which is triggered in the \textsl{recordListener()}.
+After preparing the \texttt{MediaRecorder}, it is ready for starting the recording.
 We decided to store all files in the external, public directory of the mobile phone, in order to provide the captured videos for further usage.
 
 Simultaneously to video capturing, sensor data is tracked as well.
