@@ -408,6 +408,15 @@ This is done through functions which serialize and deserializes data. All the ti
 for selecting videos sequentially are done through database queries using mySQL unix\_timestamp() conversions of
 video and event timestamps.
 
+Two versions of the server-side database have been created for this project. The first was developed by Jon while the 
+second was developed by Alf and Alexander. The first had one table for video with variables for event id, client id 
+and video id and used these as primary key. In addition all metadata was stored here. It also had a table, event that 
+consisted of the values event id and event name. There was a foreign key between event ids in these tables such that there 
+had to be an event id in event for there to be inserted an event id in video.
+The current database has one table for video with variable id and metadata. In addition it has a table for events and a table 
+called event_video. Events stores information about an event and event_video acts as the connection between event and video.
+
+
 The \texttt{VideoRating} class provides static functionality to rank videos by certain criteria. This is done by providing
 a set of data that depends on the video duration. In the current implementation, you input video metadata and the
 rating system will transform these values, which are defined from 0 to infinity, down to [0, 1] using a sigmoid function,
