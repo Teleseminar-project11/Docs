@@ -307,11 +307,8 @@ Two major options for HTTP clients are Apache HTTP Client and \textsc{HttpURLCon
 Since it is recommended to use \textsc{HttpURLConnection} for Android Gingerbread and later \cite{jesse_wilson_androids},
 we decided to go with it.
 It is lightweight, simple to handle as well as applicable for all purposes we are aiming to do.
-<<<<<<< Updated upstream
-When a \textsc{HttpUrlConnection} is obtained, the application's main thread is used and blocked as long as the connection is open.
-=======
-When a HttpUrlConnection is obtained, the application's main thread is used and blocked as long as the connection is open \cite{gilles_debunne_androids}.
->>>>>>> Stashed changes
+When a \textsc{HttpUrlConnection} is obtained, the application's main thread is used and blocked as long as the connection is open. \cite{gilles_debunne_androids}.
+
 Therefore unpredictable delays might result in poor usability experiences of the user interface.
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
 
@@ -338,12 +335,9 @@ For video recording we do not use the phone's default camera application,
 rather writing our own camera activity, which can be suited to our requirements and implemented in the CameraActivity.java class.
 Using Android's \textsc{MediaRecorder} class we are able to handle access to the phone's integrated camera
 as well as the recording and the storage of video files.
-<<<<<<< Updated upstream
-Figure~\ref{fig:mediarecorder} shows the supposed behavior of the \textsc{MediaRecoder} in its different states. 
+
+Figure~\ref{fig:mediarecorder} \cite{mediarec_doc} shows the supposed behavior of the \textsc{MediaRecoder} in its different states. 
 The function \textsl{prepareMediaRecorder()} (\textsc{CameraActivity.java}) follows the supposed main strand,
-=======
-Figure~\ref{fig:mediarecorder} \cite{mediarec_doc} shows the supposed behavior of the MediaRecoder in its different states. The function prepareMediaRecorder() (CameraActivity.java) follows the supposed main strand,
->>>>>>> Stashed changes
 by setting the Video and Audio Input Sources, defining the Output format, which is mp4 and setting the preview surface for displaying the camera stream.
 After preparing the \textsc{MediaRecorder} it is ready for starting the recording, which is triggered in the \textsl{recordListener()}.
 
