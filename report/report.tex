@@ -334,11 +334,16 @@ A second thread within this service class is used to request potential selected 
 in order to upload video files via HTTP PUT if necessary.
 By doing so we make sure, that all network operations run independently and separated of our main thread.
 
-Further core function is the recording of videos. Hereby we do not use the phone's default camera application,
-rather writing our own camera activity, which can be suited to our requirements.
-Using Android's \textsc{MediaRecorder} class we are able to handle access to the phone's build-in camera
-as well as the recording and storage of video files.
-Simultaneously sensor data is tracked as well.
+Further core elements of the application are camera and sensors, used for exclusively capturing videos and sensor data simultaneously.
+For video recording we do not use the phone's default camera application,
+rather writing our own camera activity, which can be suited to our requirements and implemented in the CameraActivity.java class.
+Using Android's \textsc{MediaRecorder} class we are able to handle access to the phone's integrated camera
+as well as the recording and the storage of video files.
+Figure~\ref{fig:mediarecorder} shows the supposed behavior of the MediaRecoder in its different states. The function prepareMediaRecorder() (CameraActivity.java) follows the supposed main strand,
+by setting the Video and Audio Input Sources, defining the Output format, which is mp4 and setting the preview surface for displaying the camera stream.
+After preparing the MediaRecorder it is ready for starting the recording, which is triggered in the recordListener().
+
+Simultaneously to video capturing, sensor data is tracked as well.
 In order to couple sensor and video capture we make use of the observer pattern.
 Sensor detection classes (\textsc{ShakeDetection} and T\textsc{iltDetetcion}) are implemented as Observables,
 while the \textsc{CameraActivity} class registers as a single observer. 
@@ -353,9 +358,15 @@ We assume to be in a shaking motion, when at least two of three accelerometer va
 to their previous values by a specific threshold.
 The threshold value is initialized as a float constant with the value 0.7f. This value is exclusively based on experimenting.
 
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=0.45\textwidth]{mediarecorder.jpg}
+	\caption{MediaRecorder: State Diagram}
+	\label{fig:mediarecorder}
+\end{figure}
+
 In order to keep track and coupling of stored video files and obtained meta data, we make use of a persistent database,
 implemented with the lightweight SQLite library, which has support from Android side as well.
-
 The local database set up would not have been entirely necessary. 
 But due to simplicity and considerations for future extensions, we decided to have all data in persistence.
 Each meta data entry has its unique \textsl{id} and each stored video file has its unique \textsl{filename}.
@@ -363,7 +374,8 @@ Therefore we use the database column \textsl{filename} as a unambiguous referenc
 When the client gets notified by the server to upload a video, it is necessary to check the filename in the within 
 the table entries, selecting the correct file to be uploaded.
 
-% TODO UI picture
+
+
 
 \subsection{Server application}
 
