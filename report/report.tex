@@ -293,7 +293,6 @@ Detailed descriptions of our server and client implementation are discussed in t
 \begin{figure}[!t]
 	\centering
 	\includegraphics[width=0.45\textwidth]{sys_arch.png}
-	%\includegraphics[width=0.45\textwidth]{overview.jpg}
 	\caption{General system overview}
 	\label{fig:gen_arch}
 \end{figure}
@@ -388,20 +387,41 @@ All functionalities are reachable from the starting point (\texttt{MainActivity}
 Doing so, another activity (\texttt{CameraActivity}) is started and shows the camera preview interface. Here the user can record videos by pressing the button \texttt{Capture}. While recording the user gets information, about shaking motions and camera tilt. When a video is recorded, a status message appears which shows if meta data is uploaded successfully or not. If a a video can be uploaded another correspondingly toast message appears.
 Per settings it is possible to define the ip address and port number of the server and network communications.
 
-
 \begin{figure}[!t]
 	\centering
-	\includegraphics[width=0.25\textwidth]{ui_main.png}
-	\caption{Application's starting point}
-	\label{fig:ui_main}
+	\subfloat[Main]{\includegraphics[width=.2\textwidth]{ui_main.png}%
+		\label{fig:ui_main}}
+	\hfil
+	\subfloat[Settings]{\includegraphics[width=.2\textwidth]{ui_interface.png}%
+		\label{fig:ui_settings}}
+	\caption{User Interface: menus}
+	\label{fig:ui_menu}
 \end{figure}
 
 \begin{figure}[!t]
 	\centering
-	\includegraphics[width=0.45\textwidth]{ui_metadata.png}
-	\caption{Transfering of meta data}
-	\label{fig:ui_metadata}
+	\subfloat[Camera]{\includegraphics[width=.4\textwidth]{ui_cam_green.png}%
+		\label{fig:ui_cam_green}}
+	\vfil
+	\subfloat[Metadata upload]{\includegraphics[width=.4\textwidth]{ui_metadata.png}%
+		\label{fig:ui_metadata}}
+	\caption{User Interface: camera}
+	\label{fig:ui_cam}
 \end{figure}
+
+%\begin{figure}[!t]
+	%\centering
+	%\includegraphics[width=0.25\textwidth]{ui_main.png}
+	%\caption{Application's starting point}
+	%\label{fig:ui_main}
+%\end{figure}
+%
+%\begin{figure}[!t]
+	%\centering
+	%\includegraphics[width=0.45\textwidth]{ui_metadata.png}
+	%\caption{Transfering of meta data}
+	%\label{fig:ui_metadata}
+%\end{figure}
 
 
 
