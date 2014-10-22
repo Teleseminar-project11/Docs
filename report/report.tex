@@ -527,23 +527,21 @@ Due to its simple and lightweight character we are able to reduce data traffic b
 XML comes with big chunks of data in raw text format, which makes the size overhead in comparison to JSON crucial.
 The data traffic amount might seem not differ much at first, but considering that a plurality of clients request GET/selected every 10 seconds and upload videos via the mobile network, client costs and bandwidth problems are definitely minimized using JSON. Therefore we decide to use JSON as our preferred interchange format language.
 
-Meta data describes the characteristics of recorded videos. Its main attributes, already shown above in JSON, are:
+The meta data consists of following attributes:
 
 \begin{description}
 	\item[id] 
 		Server-side unique identification of the video. 
-		On Client side named as server\_id and transferred from server to client in the POST RESPONSE.
-		
+		On Client side named as server\_id, while id the client-side unique identifier represents.
+
 	\item[name]
-		File name in client's local file system.
+		File name in client's local file system. On client side called filename.
 		
 	\item[finish\_time]\hfill\\
-		Video creation time.
-		%TODO Is it really so?
-		
+		Video creation time. On client side named as timestamp. 
+
 	\item[duration]\hfill\\
 		Video duration.
-		%TODO This thing too.
 		
 	\item[width]\hfill\\
 		Video frame width in pixels.
@@ -559,8 +557,6 @@ Meta data describes the characteristics of recorded videos. Its main attributes,
 	
 	\item[status]\hfill\\
 		Video status. Indicates video life cycle phase.
-		% TODO It would be nice to decide on video lifecycle both client- and server-side.
-		%	It would make a nice diagram to include in the report.
 
 		
 \end{description}
