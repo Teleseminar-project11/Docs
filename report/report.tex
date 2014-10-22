@@ -393,7 +393,7 @@ stored in the database.
 
 The DatabaseHandler class manages communication with a database primarily using JSON as both input and output.
 This is done through functions which serialize and deserializes data. All the timestamp-based functionality needed
-for selecting videos sequentially are done through database queries using mySQL unix_timestamp() conversions of
+for selecting videos sequentially are done through database queries using mySQL unix\_timestamp() conversions of
 video and event timestamps.
 
 The VideoRating class provides static functionality to rank videos by certain criterias. This is done by providing
@@ -574,7 +574,7 @@ timestamp gets selected, so that its possible to maintain a stream of videos seq
 to be of good quality. It also unfortunately means that there can be gaps between videos, and that with not
 enough videos low quality will be selected. After receiving a selected video, the server immediately sets the
 new event timestamp, so even if a new video appears that is of much higher quality, or is more directly
-sequential to the last one, the server will end up using the "guaranteed" video it just received. This could
+sequential to the last one, the server will end up using the ``guaranteed'' video it just received. This could
 be alleviated somewhat by having a potential stream running with a bigger delay from the main event, and then
 doing more intelligent rebuilding of the stream.
 
@@ -652,15 +652,6 @@ WRITE ME:
 EXAMPLE:
 We built a system with video selection algorithm using metadata from clients and so on.
 What did we achieve?
-
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
