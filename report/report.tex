@@ -73,7 +73,7 @@
 Advancement of data transmission technologies and availability of high quality built-in cameras 
 has made sharing a video of an event someone has attended a mainstream trend.
 However single amateur video rarely offers full or adequate coverage of an event.
-This is where collaborative video creation techniques comes into play, but other issues arise.
+This is where collaborative video creation techniques comes into play, which brings up new topics for exploration.
 Among hundreds of videos shot at the same place at roughly the same time only 
 a dozen might be worth uploading due to poor quality of most of them and limited bandwidth on the venue.
 In this paper we implement an Automatic Mobile Video Director system which addresses the issue of 
@@ -309,7 +309,7 @@ Two major options for HTTP clients are Apache HTTP Client and \textsc{HttpURLCon
 Since it is recommended to use \textsc{HttpURLConnection} for Android Gingerbread and later \cite{jesse_wilson_androids},
 we decided to go with it.
 It is lightweight, simple to handle as well as applicable for all purposes we are aiming to do.
-When a HttpUrlConnection is obtained, the application's main thread is used and blocked as long as the connection is open.
+When a \textsc{HttpUrlConnection} is obtained, the application's main thread is used and blocked as long as the connection is open.
 Therefore unpredictable delays might result in poor usability experiences of the user interface.
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
 
@@ -319,8 +319,8 @@ of the specified \textsc{HttpAsyncTask} class, which extends Android's \textsc{A
 
 Each instance of our \textsc{HttpAsyncTask} class, defines a new \textsc{HttpUrlConnection}, which is opened and closed.
 Thus request type, request url, meta data and a callback function have to be indicated as parameters to create this instance.
-Afterwards a new \textsc{HttpUrlConnection} can be fired within the doInBackground(String...urls) function of the \textsc{HttpAsynTask} class. Consequently all \textsc{HttpUrlConnection} tasks,
-sending OutputStreams and reading InputStreams are done independently of the UI thread.
+Afterwards a new \textsc{HttpUrlConnection} can be fired within the \textsl{doInBackground(String...urls)} function of the \textsc{HttpAsynTask} class. Consequently all \textsc{HttpUrlConnection} tasks,
+sending \textsc{OutputStream}s and reading \textsc{InputStream}s are done independently of the UI thread.
 Since we need to make special requests to the server, this class serves as an interface to all network operations.
 Client session identification on the server is implemented through cookie mechanism. 
 On order to support it, a custom cookie storage was implemented based on a freely available example \cite{so_java_cookies}.
@@ -336,9 +336,10 @@ For video recording we do not use the phone's default camera application,
 rather writing our own camera activity, which can be suited to our requirements and implemented in the CameraActivity.java class.
 Using Android's \textsc{MediaRecorder} class we are able to handle access to the phone's integrated camera
 as well as the recording and the storage of video files.
-Figure~\ref{fig:mediarecorder} shows the supposed behavior of the MediaRecoder in its different states. The function prepareMediaRecorder() (CameraActivity.java) follows the supposed main strand,
+Figure~\ref{fig:mediarecorder} shows the supposed behavior of the \textsc{MediaRecoder} in its different states. 
+The function \textsl{prepareMediaRecorder()} (\textsc{CameraActivity.java}) follows the supposed main strand,
 by setting the Video and Audio Input Sources, defining the Output format, which is mp4 and setting the preview surface for displaying the camera stream.
-After preparing the MediaRecorder it is ready for starting the recording, which is triggered in the recordListener().
+After preparing the \textsc{MediaRecorder} it is ready for starting the recording, which is triggered in the \textsl{recordListener()}.
 
 Simultaneously to video capturing, sensor data is tracked as well.
 In order to couple sensor and video capture we make use of the observer pattern.
@@ -371,15 +372,12 @@ Therefore we use the database column \textsl{filename} as a unambiguous referenc
 When the client gets notified by the server to upload a video, it is necessary to check the filename in the within 
 the table entries, selecting the correct file to be uploaded.
 
-
-
-
 \subsection{Server application}
 
 The server was created using Java 8, Maven, Spark (for Java 8), jetty and Gson. Maven allows simplified project
 management and deployment, and spark allows creating RESTful service using Java 8's lambdas, which
 simplifies client-server interactions. Gson was used to communicate with clients as well as serialize
-and deserialize SQL results. jetty is the webserver which processes all incoming requests and outgoing responses.
+and deserialize SQL results. jetty is the web server which processes all incoming requests and outgoing responses.
 
 The server application serves content using a RESTful API provided by Spark. This is done through using Sparks
 lambda functions to define REST API actions and then Gson to convert to and from JSON trees.
@@ -396,16 +394,16 @@ sessions means we don't have to have a registration system in place to uniquely 
 has both good and bad sides to it. The system is designed with this in mind, but does not have any mechanisms in
 place to detect bad behavior from clients, such as forged metadata.
 
-The Director class manages communication from the web-frontend with the database backend. It has an internal list
+The \textsc{Director} class manages communication from the web-frontend with the database backend. It has an internal list
 of Client instances which are existing client sessions, and it also rates videos by metadata before they are
 stored in the database.
 
-The DatabaseHandler class manages communication with a database primarily using JSON as both input and output.
+The \textsc{DatabaseHandler} class manages communication with a database primarily using JSON as both input and output.
 This is done through functions which serialize and deserializes data. All the timestamp-based functionality needed
 for selecting videos sequentially are done through database queries using mySQL unix\_timestamp() conversions of
 video and event timestamps.
 
-The VideoRating class provides static functionality to rank videos by certain criterias. This is done by providing
+The \textsc{VideoRating} class provides static functionality to rank videos by certain criteria. This is done by providing
 a set of data that depends on the video duration. In the current implementation, you input video metadata and the
 rating system will transform these values, which are defined from 0 to infinity, down to [0, 1] using a sigmoid function,
 then account for the duration of the video. This is done because shorter videos should get heavier penalties for
