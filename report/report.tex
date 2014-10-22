@@ -86,7 +86,6 @@ and server software, which leverages video metadata to make a decision about vid
 
 \section{Introduction}
 
-% TODO more like in the last 10 years
 In the recent years the Internet has changed a lot. 
 It is not about retrieving simple HTML pages from websites anymore, 
 but rather sharing news, videos and pictures from all over the world.
@@ -319,8 +318,12 @@ It is lightweight, simple to handle as well as applicable for all purposes we ar
 In order to ensure a smooth work flow of the application, we have to make use of specific thread techniques.
 First it is necessary to prevent network operations blocking the application's user interface, resulting in poor usability experience.
 Therefore all network operations need to be run as an instance of the specified \textsc{HttpAsyncTask} class, 
-a heredity of the \textsc{AsyncTask} class.
+a heredity of the \textsc{AsyncTask} class. 
 Doing so we make sure that all HTTP requests run asynchronously in the background of the application's main thread.
+Since we need to make special requests to the server, this class serves as an interface to all network operations.
+Client session identification on the server is implemented through cookie mechanism. 
+On order to support it, a custom cookie storage was implemented based on a freely available example \cite{so_java_cookies}.
+
 Secondly, the application requires an automatic upload of selected videos, even when users leave the application.
 Such feature can be realized in Android by implementing a service class, which handles background computations in the main thread. 
 A second thread within this service class is used to request potential selected video ids via HTTP GET every 10 seconds,
@@ -369,9 +372,18 @@ Server application uses a RESTful API to communicate with clients, using actions
 % TODO
 Video storage, database connection, server framework description. RESTful Web Service
 
+A final part of server software as from video lifeline's point of view is streaming web server.
+Unfortunately, this work although being not especially hard, was very different from all the other tasks and
+required some web programming which we decided to sacrifice in favor of other parts which are more essential to the problem statement.
+Moreover, another group already works on a web based framework designed to show users on-demand video streams.
+However, we did not completely neglect this part of server functionality. 
+We use a nginx \cite{nginx} web server with a Real Time Messaging Protocol (RTMP) streaming module \cite{nginx-rtmp-module}.
+Given video ID, one can construct a link which gives access to RTMP streaming of required video.
+RTMP protocol has a number of advantages over classical pseudo-streaming of mp4 files, the most outstanding of them being
+free navigation of the content without the need to download the whole video.
+The module we use also supports HTTP Live Streaming technology \cite{apple-hls} which is widely supported by Apple Inc. devices.
 
 \subsection{Client-server interaction}
-% TODO BRAINSTROMING: HTTP protocol, 
 
 All client server interaction are carried out using HTTP requests to certain server locations.
 Server provides a kind of API which allows client application to upload metadata, query selection results and upload videos.
@@ -382,7 +394,7 @@ This important feature allows to prolong battery life and diminish traffic waste
 
 % TODO ADD DIAGRAM FOR CLIENT-SERVER MESSAGES HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-\subsubsection{Protocols}
+\subsubsection{Protocol}
 
 Our Automatic Mobile Video Director server implementation provides 
 a generalized interface to applications which wish to interact with it. 
@@ -413,6 +425,23 @@ It is implemented through RESTful HTTP requests, using certain server locations 
 		Retrieve a list of selected but not yet uploaded videos in JSON.	
 		
 \end{description}
+
+A typical data exchange looks as follows:
+Every 10 seconds client queries server about new selected videos with GET on /selected.
+If clients happens to have no assigned \textsl{ClientID} on the server or the cookie the client 
+sent is not recognized, a new \textsl{ClientID} is issued and a new cookie is set.
+After a client finishes shooting a video, its' matadata is POSTed to currents events' thread /event/\textit{id}
+and a server-side video ID is returned in response.
+If the video later appears in response to one of the GET /selected queries, an upload process is initiated.
+For illustration see Figure~\ref{fig:protocol}.
+Event management API calls are not currently used in client application.
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=0.45\textwidth]{protocol.png}
+	\caption{Client-server data exchange}
+	\label{fig:protocol}
+\end{figure}
 
 \subsection{Meta data format and exchange}
 The exchange of meta data is an important part of our client - server communication.
