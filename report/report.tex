@@ -609,28 +609,24 @@ etc.
 \section{Future Work}
 
 Our implementation is far from perfect, especially compared to similar existing systems.
-This is due to the fact that our system was implemented in five weeks and 
-we did not have time to include all the features that could have been in such a system.
-Among the things which could be improved are a better way of identifying a timeline of an event,
-a way of identifying regions of interest, real-time streaming from mobile devices to server 
-and from server to end users with minimum delay, web portal to navigate covered events and many more.
+This is due to time constraints limiting some of the features we have, and could have added to our implementation.
+Among the things which could be improved are more intelligent identification of timelines belonging to events,
+flexible ways of identifying regions of interest, also without compromising user privacy, real-time streaming from mobile devices to server 
+and from server to end users with minimum delay, a web portal to navigate covered events and more.
 In this section we will go through these points, look at the problems we encounter with our solution 
 and suggest better implementation alternatives where available.
 
-The timestamps represent a weakness in our system.
-They are generated based on the clock in the mobile device which is not necessarily accurate or 
-synchronized to server time or even timezone. 
-This creates uncertainty about the actual time a video was captured as it relies on us trusting the devices all have the exact same time.
-This is practically impossible as the system is intended for use by general public. 
+Timestamps represent a weakness in our system. They are generated based on the clock in the mobile
+device which is not necessarily accurate or synchronized to server time or even timezone. They can also
+be falsified, since the server has no way to confirm a given video was taken at a specific moment in time.
+This creates uncertainty about the actual time a video was captured as it relies on us trusting the devices
+all have the exact same time. This is practically impossible as the system is intended for use by general public. 
 There are two ways presented in the sources for this paper for solving this. 
 \cite{shrestha_automatic_2010} presents a system that uses the audio of a video file to pinpoint the duration of an event it covers.
 It does this by comparing audio to other video files looking for what they call “audio-fingerprints”. 
 According to them, it is a robust method that calculates the time offset of a video in about 11.6 ms. 
 Another way is just mentioned in \cite{ jain_focus:_2013} and uses the GPS device located on a mobile device
 to generate what they call “precise GPS-derived timestamps”.
-Either of these methods would be better than ours as they don’t rely on what time is set on the users device,
-however, we deemed them very time-consuming to implement, and so decided to implement them only if we had time for it.
-We are fully aware of possible errors our current methods might cause.
 
 Region of interest is a very interesting topic in this field as it focuses on making sure 
 that the right content is captured during an event.
