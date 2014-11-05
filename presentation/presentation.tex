@@ -27,6 +27,9 @@
 
 \defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
 
+\usetikzlibrary{decorations.pathreplacing}
+\newcommand{\tikzmark}[2]{\tikz[remember picture,baseline=(#1.base)]{\node[inner sep=0pt] (#1) {#2};}}
+
 %\algsetup{indent=2em,linenosize=\footnotesize}
 
 \title{Automatic Mobile Video Director}

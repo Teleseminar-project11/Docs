@@ -1,3 +1,96 @@
 \begin{frame}	
-	Alf did it
+	\begin{columns}[t]
+		\begin{column}[t]{0.5\linewidth}
+			Application:
+			\begin{itemize}
+				\item Java 8
+				\item Spark Web Framework\footnotemark[1]
+				\item Gson\footnotemark[2]
+				\item Maven\footnotemark[3]
+			\end{itemize}
+		\end{column}
+		\begin{column}[t]{0.5\linewidth}
+			Database:
+			\begin{itemize}
+				\item MySQL
+			\end{itemize}
+			
+			Web Interface:
+			\begin{itemize}
+				\item Nginx web server\footnotemark[4]
+				\item nginx-rtmp-module\footnotemark[5]
+				\item JWplayer\footnotemark[6] or Video.js\footnotemark[7]
+				\item HTML+JavaScript (temporary)
+			\end{itemize}
+		\end{column}		
+	\end{columns}	
+	
+{\tiny
+	\footnotetext[1]{\url{http://sparkjava.com/}}
+	\footnotetext[2]{\url{https://code.google.com/p/google-gson/}}
+	\footnotetext[3]{\url{http://maven.apache.org/}}
+	\footnotetext[4]{\url{https://github.com/arut/nginx-rtmp-module}}
+	\footnotetext[5]{\url{http://nginx.org/}}
+	\footnotetext[6]{\url{http://www.jwplayer.com/}}
+	\footnotetext[7]{\url{http://www.videojs.com/}}
+}
+\end{frame}
+
+\begin{frame}	
+	%\begin{columns}[t]
+		%\begin{column}[t]{0.5\linewidth}
+			Application:
+			\begin{itemize}
+				\item RESTful API
+				\item Client sessions with cookies
+				\item No registration needed
+				\item Rating takes duration into account
+			\end{itemize}
+		%\end{column}
+		%\begin{column}[t]{0.5\linewidth}
+			%
+		%\end{column}		
+	%\end{columns}	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Database tables}
+	\setbeamertemplate{description item}[align left]
+	\begin{columns}[t]
+		\begin{column}[t]{0.5\linewidth}
+			event \hrule
+			\begin{description}[name]
+				\item[id] int primary key 
+				\item[name] varchar(255) 
+				\item[ts] timestamp
+			\end{description}
+			
+			\vspace{0.5cm}
+			event\_videos \hrule
+			
+			\begin{description}[event\_id]
+				\item[event\_id] int %\tikzmark{E}
+				\item[video\_id] int %\tikzmark{V}
+			\end{description}
+			%\begin{tikzpicture}[remember picture,overlay]
+				%\draw[decorate,decoration={brace}] (E.north east) -- node[right] {primary key} (E.north east |- V.south east);
+			%\end{tikzpicture}
+
+		\end{column}
+		\begin{column}[t]{0.5\linewidth}
+			video \hrule
+			\begin{description}[finish\_time]	
+				\item[id] int primary key
+				\item[finish\_time] timestamp
+				\item[duration] int
+				\item[width] int
+				\item[height] int
+				\item[shaking] int
+				\item[tilt] int
+				\item[name] varchar(255)
+				\item[rating] int
+				\item[status] int
+			\end{description}
+		\end{column}		
+	\end{columns}	
 \end{frame}
