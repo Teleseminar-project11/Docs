@@ -1,0 +1,44 @@
+\begin{frame}
+	\frametitle{Metadata format}
+	\setbeamertemplate{description item}[align left]
+	\begin{description}[finish\_time]
+	%[leftmargin=!,labelwidth=\widthof{\bfseries finish\_time}]
+		\item[id] 
+			Server-side unique identification of the video.
+		\item[name]
+			File name in client's local file system.			
+		\item[finish\_time]
+			Video creation time in the format: yyyy-mm-dd hh:mm:ss
+		\item[duration]
+			Video duration in milliseconds.	
+		\item[width]
+			Video frame width in pixels.
+		\item[height]
+			Video frame height in pixels.		
+		\item[shaking]
+			Amount of shaking detected by sensors.
+		\item[tilt]
+			The amount of tilt holding of the camera.
+		\item[status]
+			Video status. Indicates video life cycle phase.
+		\item[event\_id]
+			Unique server-side identifier of an event.		
+	\end{description}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Metadata example (formatted)}
+		% TODO: Do we ever transfer event_id?
+		\begin{verbatim}
+		{
+		    "id":30,
+		    "duration":3669,
+		    "height":1080,
+		    "shaking":0,
+		    "tilt":24,
+		    "width":1920,
+		    "finish_time":"2014-11-05 14:01:12.0",
+		    "name":"VID_20141105_140107.mp4"
+		}
+		\end{verbatim}
+\end{frame}

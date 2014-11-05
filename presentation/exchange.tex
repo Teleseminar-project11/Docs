@@ -1,0 +1,33 @@
+\begin{frame}	
+	\frametitle{Client-server data exchange}
+	\begin{figure}[!t]
+		\centering
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{protocol.png}
+		\label{fig:protocol}
+	\end{figure}
+\end{frame}
+
+\begin{frame}	
+	\frametitle{Protocol description}
+	\small
+	\setbeamertemplate{description item}[align left]
+	\begin{description}[PUT /video/\textit{video\_id}]
+	%[leftmargin=!,labelwidth=\widthof{\bfseries PUT /video/\textit{video\_id}}]
+		\item[GET /events]
+			Lists all events (including videos) in~JSON.			
+		\item[GET /event/\textit{id}]
+			Returns Event (including videos) in~JSON.					
+		\item[POST /event/new]
+			Create new event from JSON.
+			Expects request body to be a JSON string containing attribute~\textit{name}.			
+		\item[POST /event/\textit{id}]
+			Upload JSON metadata about a video for Event with given \textit{id}.			
+		\item[PUT /video/\textit{video\_id}]
+			Upload video~\textit{video\_id}.
+			Expects request body to be a file stream containing a full video file.			
+		\item[GET /video/\textit{video\_id}]
+			Retrieve video~\textit{video\_id}.			
+		\item[GET /selected]
+			Retrieve a list of selected but not yet uploaded videos in JSON.			
+	\end{description}
+\end{frame}

@@ -1,7 +1,9 @@
 \documentclass[10pt,pdf]{beamer}
 \mode<presentation>
+%http://www.hartwork.org/beamer-theme-matrix/
 \usetheme{Warsaw}
 \usecolortheme{whale}
+\setbeamerfont{frametitle}{size=\small}
 
 % \usepackage[utf8]{inputenc}
 % \usepackage[T2A]{fontenc}
@@ -10,36 +12,54 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{epstopdf}
+\graphicspath{{images/}}
+\usepackage[font=scriptsize]{subfig}
+%\usepackage{epstopdf}
 \usepackage[english]{isodate}
-\usepackage[noend]{algorithmic}
-\usepackage{algorithm}
-\usepackage{multirow}
+%\usepackage[noend]{algorithmic}
+%\usepackage{algorithm}
+%\usepackage{multirow}
 \usepackage{tikz}
-\usepackage{pgfplots}
-\usepackage{tabulary}
+%\usepackage{pgfplots}
+\usepackage{hyperref}
+%\usepackage{tabulary}
+\usepackage[utf8]{inputenc}
 
-\algsetup{indent=2em,linenosize=\footnotesize}
+\defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
+
+%\algsetup{indent=2em,linenosize=\footnotesize}
 
 \title{Automatic Mobile Video Director}
-\author{
-	{Alexander Egurnov}
-	{University of Mannheim\\
-		aegurnov@mail.uni-mannheim.de}
-\and \\
-	{Thilo Weigold}
-	{University of Mannheim\\
-		tweigold@mail.uni-mannheim.de}
-\and \\
-	{Jon Pettersen}
-	{University of Oslo\\
-		jonup@student.matnat.uio.no}
-\and \\
-	{Alf-André Walla}
-	{University of Oslo\\
-		alfandrw@ifi.uio.no}
+\author[Alexander Egurnov \and Thilo Weigold \and Jon Pettersen \and Alf-André Walla]{
+	\texorpdfstring{
+		\begin{columns}
+			\column{.45\linewidth}
+			\centering
+			{Alexander Egurnov\inst{\dagger}\\
+			\href{mailto:aegurnov@mail.uni-mannheim.de}{aegurnov@mail.uni-mannheim.de}}
+			\column{.45\linewidth}
+			\centering
+			{Thilo Weigold\inst{\dagger}\\
+			\href{mailto:tweigold@mail.uni-mannheim.de}{tweigold@mail.uni-mannheim.de}}
+		\end{columns}
+		\vspace{0.5cm}
+		\begin{columns}
+			\column{.45\linewidth}
+			\centering
+			{Jon Pettersen\inst{*}\\
+			\href{mailto:jonup@student.matnat.uio.no}{jonup@student.matnat.uio.no}}
+			\column{.45\linewidth}
+			\centering
+			{Alf-André Walla\inst{*}\\
+			\href{mailto:alfandrw@ifi.uio.no}{alfandrw@ifi.uio.no}}
+		\end{columns}
+	}
+	{Alexander Egurnov, Thilo Weigold, Jon Pettersen, Alf-André Walla}
 }
-\institute[University of Mannheim]{University of Mannheim}
+\institute[University of Mannheim]{
+	\inst{\dagger} University of Mannheim \and %
+	\inst{*} University of Oslo}
+%\institute[University of Mannheim]{University of Mannheim}
 
 \begin{document}
 
@@ -63,14 +83,11 @@
 {
   \leavevmode%
   \hbox{%
-  %\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-	%\usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
-  %\end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
 	\usebeamerfont{title in head/foot}\insertshorttitle
   \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{institute in head/foot}%
-	\usebeamerfont{institute in head/foot}\insertinstitute
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+	\usebeamerfont{author in head/foot}\insertshortauthor
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.2\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
 	\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
@@ -87,64 +104,88 @@
 	\tableofcontents
 \end{frame}
 
-\section{Section 1}
+\section{Introduction}
+\input{introduction}
 
-\subsection{Subsection} 
-\begin{frame}
-	\frametitle{Frame 1}
-	\begin{itemize}
-		\item One
-		\item Two
-		\item Three
-	\end{itemize}
-\end{frame}
+\section{Software}
 
-\begin{frame}
-	\frametitle{Frame 2}
-	\begin{itemize}
-		\item Four
-		\item Five
-	\end{itemize}
-\end{frame}
+	\subsection{System Overview}
+	\begin{frame}
+		\frametitle{General system overview}
+		\begin{figure}[!t]
+			\centering
+			\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{sys_arch.png}
+			\label{fig:gen_arch}
+		\end{figure}
+	\end{frame}
 
-\section{Section 2}
-\begin{frame}
-	\frametitle{Two Columns}
-	\begin{columns}[t]
-		\begin{column}[c]{5cm}
-			\footnotesize
-			\begin{tabular}[H]{|l||c|c|c|c|}
-		        \hline
-		        & \rotatebox{90}{Sugar } & \rotatebox{90}{Juicy } & \rotatebox{90}{Healthy } & \rotatebox{90}{Natural } \\
-		        \hline
-		        Fruit chews & $\times$ & $\times$ & & \\
-		        \hline
-		        Lollipop & $\times$ & & & \\
-		        \hline
-		        Chewing gum & & & $\times$ & \\
-		        \hline
-		        Fresh fruit & & $\times$ & $\times$ & $\times$ \\
-		        \hline
-		    \end{tabular}
-		\end{column}
-		\begin{column}[c]{5cm}
-			\usetikzlibrary{shapes.geometric}
-			\begin{tikzpicture}[thick,scale=0.7, every node/.style={transform shape}]
-				% [every node/.style={inner sep=0pt}]
-				\node (1) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (187.5pt, -75.0pt)  {};
-				\node (4) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (187.5pt, -225.0pt)  {};
-				\node (2) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (150.0pt, -150.0pt)  {};
-				\node (3) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (225.0pt, -150.0pt)  {};
-				\draw [line width=0.625, color=black] (2) to  (1);
-				\draw [line width=0.625, color=black] (3) to  (1);
-				\draw [line width=0.625, color=black] (4) to  (2);
-				\node at (187.5pt, -57.5pt) {\textcolor{black}{Fresh fruit}};
-				\node at (187.5pt, -242.5pt) {\textcolor{black}{Lolipop}};
-				\node at (113.75pt, -150.0pt) {\textcolor{black}{Fruit chew}};
-				\node at (268.25pt, -150.0pt) {\textcolor{black}{Chewing gum}};
-			\end{tikzpicture}
-		\end{column}
-	\end{columns}
-\end{frame}
+	\subsection{Client application}
+	\input{client}
+
+	\subsection{Server application}
+	\input{server}
+
+	\subsection{Client-server interaction}
+	\input{exchange}
+
+	\subsection{Meta data format}
+	\input{metadata}
+
+\section{Video Director Algorithm}
+\input{algorithm}
+	
+\section{Teamwork}
+\input{teamwork}
+
+\section{Conclusion}
+\input{conclusion}
+
+
+%\begin{frame}
+	%\frametitle{Frame 2}
+	%\begin{itemize}
+		%\item Four
+		%\item Five
+	%\end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+	%\frametitle{Two Columns}
+	%\begin{columns}[t]
+		%\begin{column}[c]{5cm}
+			%\footnotesize
+			%\begin{tabular}[H]{|l||c|c|c|c|}
+		        %\hline
+		        %& \rotatebox{90}{Sugar } & \rotatebox{90}{Juicy } & \rotatebox{90}{Healthy } & \rotatebox{90}{Natural } \\
+		        %\hline
+		        %Fruit chews & $\times$ & $\times$ & & \\
+		        %\hline
+		        %Lollipop & $\times$ & & & \\
+		        %\hline
+		        %Chewing gum & & & $\times$ & \\
+		        %\hline
+		        %Fresh fruit & & $\times$ & $\times$ & $\times$ \\
+		        %\hline
+		    %\end{tabular}
+		%\end{column}
+		%\begin{column}[c]{5cm}
+			%\usetikzlibrary{shapes.geometric}
+			%\begin{tikzpicture}[thick,scale=0.7, every node/.style={transform shape}]
+				%% [every node/.style={inner sep=0pt}]
+				%\node (1) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (187.5pt, -75.0pt)  {};
+				%\node (4) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (187.5pt, -225.0pt)  {};
+				%\node (2) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (150.0pt, -150.0pt)  {};
+				%\node (3) [circle, minimum size=18.75pt, fill=white, line width=0.625pt, draw=black] at (225.0pt, -150.0pt)  {};
+				%\draw [line width=0.625, color=black] (2) to  (1);
+				%\draw [line width=0.625, color=black] (3) to  (1);
+				%\draw [line width=0.625, color=black] (4) to  (2);
+				%\node at (187.5pt, -57.5pt) {\textcolor{black}{Fresh fruit}};
+				%\node at (187.5pt, -242.5pt) {\textcolor{black}{Lolipop}};
+				%\node at (113.75pt, -150.0pt) {\textcolor{black}{Fruit chew}};
+				%\node at (268.25pt, -150.0pt) {\textcolor{black}{Chewing gum}};
+			%\end{tikzpicture}
+		%\end{column}
+	%\end{columns}
+%\end{frame}
 
 \end{document}
