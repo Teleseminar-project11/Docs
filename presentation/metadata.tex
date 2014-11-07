@@ -28,7 +28,7 @@
 \begin{frame}[fragile]
 	\frametitle{JSON vs. XML}
 		\begin{itemize}
-			\item Json more lightweight then  XML, less size overhead.
+			\item JSON more lightweight then  XML, less size overhead.
 			\item Library org.json for Java for fast parsing.
 			\item Serialization and deserialization in Json more efficient then XML.
 			\item Describes meta data properly, XMl better used for data in the document paradigm
@@ -36,8 +36,8 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Metadata example (formatted) Http\_POST}
-		% TODO: Do we ever transfer event_id?
+	\frametitle{Metadata example (formatted) }
+		HTTP\_POST /event/\textit{id}\footnotemark
 		\begin{verbatim}
 		{
 		    "id":30,
@@ -50,4 +50,5 @@
 		    "name":"VID_20141105_140107.mp4"
 		}
 		\end{verbatim}
+		\footnotetext{\textsl{event\_id} is transfered as a part of URL}
 \end{frame}

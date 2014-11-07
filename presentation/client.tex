@@ -5,7 +5,13 @@
 			Http client:
 			\begin{itemize}
 				\item HttpURLConnection
-				\item HttpAsnycTask class to run network operations independently from UI thread
+				\item Custom-built client supports:
+				\begin{itemize}
+					\item cookies
+					\item callbacks
+					\item persistent settings					
+				\end{itemize} 
+				\item HttpAsyncTask class to run network operations independently from UI thread
 				\item Implementation of an Android service to check requested video uploads
 			\end{itemize}
 		\end{column}
@@ -50,7 +56,7 @@
 				\item Use of the accelerometer sensor
 				\item Shake Detection
 				\item Tilt Detection
-				\item Preprocessed sensor data: ”Counter” value is send to the server.
+				\item Preprocessed sensor data: ”Counter” value is sent to the server.
 				\item easy to add new sensors
 			\end{itemize}
 		\end{column}
@@ -71,27 +77,25 @@
 			\item Problem: coupling of actual video file and meta data persistently. 
 			\item Use of Android's SQLite databases to have meta data persistently.
 			\item Table: metadata
-			\item Each filename is unique -> column filename be handled as a foreign key to the actual video file.
+			\item Each filename is unique $\rightarrow$ column ``filename'' is handled as a foreign key to the actual video file.
 		\end{itemize}
 \end{frame}
 
 \begin{frame}	
 	\frametitle{SQLite database}
-		\begin{itemize}
-			Table metadata: \hrule
-			\begin{description}	
-				\item[id] int primary key
-				\item[filename] text
-				\item[timestamp] text
-				\item[duration] int
-				\item[width] int
-				\item[height] int
-				\item[shaking] int
-				\item[tilt] int
-				\item[serverId] int
-				\item[status] int
-			\end{description}
-		\end{itemize}
+		Table metadata: \hrule
+		\begin{description}	
+			\item[id] int primary key
+			\item[filename] text
+			\item[timestamp] text
+			\item[duration] int
+			\item[width] int
+			\item[height] int
+			\item[shaking] int
+			\item[tilt] int
+			\item[serverId] int
+			\item[status] int
+		\end{description}
 \end{frame}
 
 \begin{frame}	
