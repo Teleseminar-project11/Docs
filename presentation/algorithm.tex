@@ -12,13 +12,16 @@
 \begin{frame}	
 	\frametitle{Selection algorithm}
 	\texttt{VideoRating} class assignes rank on metadata arrival
-	Sigmoid transformation: $\forall x \in [shake, tilt]$
+	Sigmoid transformation: $\forall i \in \{shake, tilt\}$
 	\begin{align*}
-		xs &= \cfrac{x^2}{15 * duration} \\
-		f  &= \left(\cfrac{xs}{1+|xs|}\right)^3 &f  &\in [-1, 1] \\
-		fn &= \cfrac{f + 1}{2}                  &fn &\in [0, 1]
+		xs_i &= \cfrac{x_i^2}{15 * duration} - 0.3 * duration 
+			&&\parbox{10em}{\footnotesize scalling accounts for \\ different durations}\\
+		f_i  &= \left(\cfrac{xs_i}{1+|xs_i|}\right)^3
+			&& \parbox{10em}{\footnotesize maps $[-\inf,\inf]$ to $[-1, 1]$}\\
+		fn_i &= \cfrac{f_i + 1}{2}
+			&& \parbox{10em}{\footnotesize maps $[-1,1]$ to $[0,1]$}
 	\end{align*}
-	$$rating = 100 * \sqrt{ \sum\limits_{i \in sensors}{w_i m_i^2} },\ w_{shake} = 0.6,\ w_{tilt} = 0.4$$
+	$$rating = 100 * \sqrt{ \sum\limits_{i \in sensors}{w_i fn_i^2} },\ w_{shake} = 0.6,\ w_{tilt} = 0.4$$
 	Selection process:
 	\begin{itemize}
 		\item Only videos starting after the last selected video ends are considered.
