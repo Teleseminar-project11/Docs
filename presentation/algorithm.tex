@@ -17,7 +17,7 @@
 		xs_i &= \cfrac{x_i^2}{15 * duration} - 0.3 * duration 
 			&&\parbox{10em}{\footnotesize scalling accounts for \\ different durations}\\
 		f_i  &= \left(\cfrac{xs_i}{1+|xs_i|}\right)^3
-			&& \parbox{10em}{\footnotesize maps $[-\inf,\inf]$ to $[-1, 1]$}\\
+			&& \parbox{10em}{\footnotesize maps $[-\infty,\infty]$ to $[-1, 1]$}\\
 		fn_i &= \cfrac{f_i + 1}{2}
 			&& \parbox{10em}{\footnotesize maps $[-1,1]$ to $[0,1]$}\\
 		rating &= 100 * \sqrt{ \sum\limits_{i \in sensors}{w_i fn_i^2} } 
@@ -26,7 +26,7 @@
 	Selection process:
 	\begin{itemize}
 		\item Only videos starting after the last selected video ends are considered.
-		\item Top-rated video is selected for upload
+		\item Lowest-rated video is selected for upload
 	\end{itemize}
 \end{frame}
 
