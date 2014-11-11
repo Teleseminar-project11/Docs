@@ -18,7 +18,7 @@
 		\begin{column}[t]{0.5\linewidth}
 			\begin{figure}[!t]
 				\centering
-				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{http.jpg}
+				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{presentation.png}
 				\label{fig:http}
 			\end{figure}
 			
@@ -41,7 +41,7 @@
 		\begin{column}[t]{0.5\linewidth}
 			\begin{figure}[!t]
 				\centering
-				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{camera.jpg}
+				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{presentation.png}
 				\label{fig:camera}
 			\end{figure}
 			
@@ -65,8 +65,8 @@
 		\begin{column}[t]{0.5\linewidth}
 			\begin{figure}[!t]
 				\centering
-				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{camera.jpg}
-				\label{fig:camera1}
+				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{presentation.png}
+				\label{fig:sensors}
 			\end{figure}
 		\end{column}				
 	\end{columns}	
@@ -81,14 +81,16 @@
 					\item Problem: coupling of actual video file and meta data persistently. 
 					\item Use of Android's SQLite databases to have meta data persistently.
 					\item Table: metadata
-					\item Each filename is unique $\rightarrow$ column ``filename'' is handled as a foreign key to the actual video file.
+					\item Each filename is unique $\rightarrow$ column ``filename'' is handled as a reference to the actual video file.
 				\end{itemize}
 		\end{column}
 		\begin{column}[t]{0.5\linewidth}
 			\begin{figure}[!t]
 				\centering
-				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{sqlite.jpg}
-				\label{fig:sqlite}
+
+
+				\includegraphics[width=\textwidth,height=.9\textheight,keepaspectratio]{presentation.png}
+				\label{fig:sql}
 			\end{figure}
 		\end{column}
 	\end{columns}		
