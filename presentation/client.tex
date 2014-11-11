@@ -16,10 +16,7 @@
 			\end{itemize}
 		\end{column}
 		\begin{column}[t]{0.5\linewidth}
-			Class diagram:
-			\begin{itemize}
-				\item ...
-			\end{itemize}
+			
 			
 		\end{column}		
 	\end{columns}	
@@ -32,16 +29,13 @@
 			Camera:
 			\begin{itemize}
 				\item No use of phone's default camera application.
-				\item Own CameraActivity
-				\item Use of Android's MediaRecorder.
+				\item SurfaceView class to display a preview: android.view.SurfaceView
+				\item Android's MediaRecorder to record a video: android.media.MediaRecorder
 				\item Storage of video files (.mp4 format) in the public directory for further usage. 
 			\end{itemize}
 		\end{column}
 		\begin{column}[t]{0.5\linewidth}
-			Class diagram:
-			\begin{itemize}
-				\item 
-			\end{itemize}
+			
 			
 		\end{column}		
 	\end{columns}	
@@ -51,9 +45,9 @@
 	\frametitle{Sensors}
 	\begin{columns}[t]
 		\begin{column}[t]{0.5\linewidth}
-			Camera:
+			Sensors:
 			\begin{itemize}
-				\item Use of the accelerometer sensor
+				\item Accelerometer sensor for:
 				\item Shake Detection
 				\item Tilt Detection
 				\item Preprocessed sensor data: ”Counter” value is sent to the server.
@@ -61,24 +55,27 @@
 			\end{itemize}
 		\end{column}
 		\begin{column}[t]{0.5\linewidth}
-			Class diagram (Observer pattern): 
-			\begin{itemize}
-				\item ...
-			\end{itemize}
 			
-		\end{column}		
+		\end{column}				
 	\end{columns}	
 \end{frame}
 
 \begin{frame}	
 	\frametitle{SQLite database}
-	SQLite database:
-		\begin{itemize}
-			\item Problem: coupling of actual video file and meta data persistently. 
-			\item Use of Android's SQLite databases to have meta data persistently.
-			\item Table: metadata
-			\item Each filename is unique $\rightarrow$ column ``filename'' is handled as a foreign key to the actual video file.
-		\end{itemize}
+	\begin{columns}[t]
+		\begin{column}[t]{0.5\linewidth}
+			SQLite database:
+				\begin{itemize}
+					\item Problem: coupling of actual video file and meta data persistently. 
+					\item Use of Android's SQLite databases to have meta data persistently.
+					\item Table: metadata
+					\item Each filename is unique $\rightarrow$ column ``filename'' is handled as a foreign key to the actual video file.
+				\end{itemize}
+		\end{column}
+		\begin{column}[t]{0.5\linewidth}
+			
+		\end{column}
+	\end{columns}		
 \end{frame}
 
 \begin{frame}	
